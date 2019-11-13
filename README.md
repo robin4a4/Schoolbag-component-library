@@ -1,5 +1,5 @@
 # Schoolbag-component-library BETA
-A set of React.js component using Tailwind.css that make prototyping small apps even faster.
+A set of React.js components using Tailwind.css that make prototyping small apps even faster.
 
 ## Install
 
@@ -19,7 +19,7 @@ The components are written in the Components.js file in the *src/* folder.
 ### Style
 You can modify the style of each component in Components.js thanks to the utility-first css framework Tailwind.css. 
 
-It helps to make reponsive way faster, eliminates the need to find fancy class names such as content-item-title-wrapper and since we generate components once they are created, we don't have to worry about repetability. Finally, since there is a finite numbers of options, it saves us from settings arbitrary withs and colors and helps us keep things cohesive.
+It helps you to make reponsive way faster, eliminates the need to find fancy class names such as content-item-title-wrapper and since we generate components once they are created, we don't have to worry about repetability. Finally, since there is a finite numbers of options, it saves us from settings arbitrary withs and colors and helps us keep things cohesive.
 
 Some features, such as animations, are not supported by Tailwind yet, so you can write your own classes in the *src/styles/index.css* stylecheet. If you do so, **you will have to restart your server**  to see the modifications.
 
