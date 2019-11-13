@@ -1,0 +1,109 @@
+@tailwind base;
+
+@tailwind components;
+
+/* Animation 
+   ========================================================================== */
+@keyframes fondueIn {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+
+@keyframes fondueOut {
+    from {opacity: 1;}
+    to {opacity: 0;}
+}
+
+@keyframes rotate45 {
+    from {transform: rotate(0deg);}
+    to {
+        transform: translateY(0.37rem) rotate(45deg) ;
+        
+    }
+}
+
+@keyframes -rotate45 {
+    from {transform: rotate(0deg);}
+    to {
+        transform: translateY(-0.37rem) rotate(-45deg);
+        
+    }
+}
+
+@keyframes rotateBack {
+    from {transform: rotate(45deg);}
+    to {
+        transform: rotate(0deg) translateY(0rem);
+    
+    }
+}
+
+@keyframes -rotateBack {
+    from {transform: rotate(-45deg);}
+    to {
+        transform: rotate(0deg) translateY(0rem);
+
+    }
+}
+
+.animateIn{
+    animation: fondueIn 0.3s ease 0s both;
+}
+
+.animateOut{
+    animation: fondueOut 0.3s ease 0s both;
+}
+
+
+.burger2close .burger-middle{
+    animation: fondueOut 0.3s ease 0s both;
+}
+
+.burger2close .burger-top{
+    transform-origin: center;
+    animation: rotate45 0.3s ease 0s both;
+}
+
+.burger2close .burger-bottom{
+    transform-origin: center;
+    animation: -rotate45 0.3s ease 0s both;
+}
+
+.close2burger .burger-middle{
+    animation: fondueIn 0.3s ease 0s both;
+}
+
+.close2burger .burger-top{
+    transform-origin: center;
+    animation: rotateBack 0.3s ease 0s both;
+}
+
+.close2burger .burger-bottom{
+    transform-origin: center;
+    animation: -rotateBack 0.3s ease 0s both;
+}
+
+/* Gradient 
+   ========================================================================== */
+
+.bg-darkGradient{
+    background: linear-gradient(rgba(0,0,0,0),rgba(0,0,0,0.3), rgba(0,0,0,0.7))
+}
+
+.bg-whiteGradient-right{
+    background: linear-gradient(0.25turn, rgba(255, 255, 255,0),rgba(255,255,255,0.3), rgba(255,255,255,0.9))
+}
+
+.no-wrap{
+    white-space: nowrap;
+}
+
+/* Slider 
+   ========================================================================== */
+
+.Slider .CardImageTop, .Slider .CardImageFull, .Slider .CardImageLeft, .Slider .CardImageRight{
+    margin-right:20px;
+}
+
+@tailwind utilities;
+
