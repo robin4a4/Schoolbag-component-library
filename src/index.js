@@ -4,7 +4,8 @@ import Prism from 'prismjs';
 
 import './styles/tailwind.css';
 
-import {Header,
+import {Hr,
+        Header,
         HeaderTitleFull,
         Nav,
         Template,
@@ -15,12 +16,14 @@ import {Header,
         ItemNav,
         BtnMainFilled,
         BtnMainStroked,
-        BtnMainPillFilled, 
+        BtnMainPillFilled,
         BtnMainPillStroked,
         BtnAltFilled,
         BtnAltStroked,
         BtnAltPillFilled,
-        BtnAltPillStroked, 
+        BtnAltPillStroked,
+        BtnSuccess,
+        BtnError,
         H1,
         H2,
         H3,
@@ -37,32 +40,54 @@ import {Header,
         CardImageRight,
         CardImageFull,
         CardImageTop,
-        Hr,
         Slider,
-        Diaporama
+        Diaporama,
+        Error,
+        Success,
+        Info,
+        Alert,
+        Popup
         } from './Components';
 
 
 
 class App extends Component {
-  constructor(props) {
-      super(props)
-      // l'état par défaut de la page est home et il n'y a pas d'image sur la page home d'ou id, date et filename nuls
-      this.state = {
-          page: "Schoolbag components library",
-      };
+    constructor(props) {
+        super(props)
+        // states definition
+        this.state = {
+            page: "Schoolbag components library",
+            isPopupVisible: true
+        };
 
-      this.changePageOnClick = this.changePageOnClick.bind(this)
+        // binding of functions
+        this.hideOnClick       = this.hideOnClick.bind(this)
+        this.showOnClick       = this.showOnClick.bind(this)
+        this.actionPopup         = this.actionPopup.bind(this)
 
-  }
 
-  changePageOnClick(data){
-    this.setState({
-        page: data
-    });
-  }
+    }
 
+    hideOnClick(data){
+        this.setState({
+            page: data
+        });
+    }
+
+    showOnClick(data){
+            this.setState({
+                page: data
+            });
+    }
+
+    actionPopup(){
+            this.setState((currentState) => ({
+                isPopupVisible: !currentState.isPopupVisible
+            }));
+
+        }
   
+
 
   render() {
 
@@ -111,6 +136,29 @@ class App extends Component {
 
             <ContentRight>
                 <section className="w-5/6 mx-auto">
+
+                    <H1>Actions</H1>
+                    <H4>Popup</H4>
+                    <Card>
+                        <div className="m-4">
+                                <CardImageFull image="simone-hutsch-ZQprWtq4ZJw-unsplash_resultat.jpg" description="Lorem ipsum desei aezl" title="Test action" setTargetName="simone"/>
+                                <div className="flex">
+                                    <BtnSuccess actionOnClick={this.actionPopup} destination="">Show</BtnSuccess>
+                                    
+                                </div>
+                        </div>
+                        <Popup visible={this.state.isPopupVisible} close={this.actionPopup}>
+                            <CardImageFull image="simone-hutsch-ZQprWtq4ZJw-unsplash_resultat.jpg" description="Lorem ipsum desei aezl" title="Test action" setTargetName="simone"/>
+                            <div className="flex">
+                                <BtnAltFilled actionOnClick="" destination="">Button</BtnAltFilled>
+  
+
+                            </div>
+                        </Popup>
+                        
+        
+                    </Card>
+
                     <H1>Headers & navs</H1>
                     <H4 anchor="1">With logo</H4>
                     <Card>

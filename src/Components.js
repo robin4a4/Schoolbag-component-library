@@ -5,10 +5,9 @@ import "./styles/prism.css";
 /*---------------------------------------------------------------
 /*---------------------------------------------------------------
 
-            Définition des template de classes communs 
+                        Common lasses
 
 /*---------------------------------------------------------------
-
 ------------------------------------------------------------------*/
 
 
@@ -18,14 +17,100 @@ var titleTemplate   = "uppercase font-semibold tracking-wider mb-3 mt-5 text-gra
 
 // on set la hauteur du header qui est utilisée dans les classes Nav et Template
 var headerHeight    = "16";
+
 /*---------------------------------------------------------------
 /*---------------------------------------------------------------
 
-                        Composant HEADER
+                        Functions
                        
 /*---------------------------------------------------------------
 ------------------------------------------------------------------*/
+
+
+function propsFilter(props, propsInfos){
+    var missingProps = []
+    var isError = false;
+    // -- comparison of arrays
+    for(var propSaved in propsInfos){
+
+        // if one prop saved isn't in props we check if it's optional
+        if(!(propSaved in props)){
+            if(propsInfos[propSaved]===true){
+                isError = true;
+                missingProps.push(<span className="bg-red-200 p-1 mx-1 rounded">{propSaved}</span>);
+                
+            }
+      
+        }
+    } 
+    // return of false and the missing prop
+    return([isError, missingProps])
+}
+
+function switchProps(choices, prop){
+    if(prop in choices){
+        return(choices[prop]);
+    }else{
+        return(choices['default']);
+    }
+}
+
+
+/*---------------------------------------------------------------
+/*---------------------------------------------------------------
+
+                        Components
+                       
+/*---------------------------------------------------------------
+------------------------------------------------------------------*/
+/*=================================================================
+                            Alert
+===================================================================*/
+
+function Error(props){
+    return(
+        <div className="w-full bg-red-100 text-red-700 rounded border-2 border-red-200 p-4">{props.children}</div>
+    )
+}
+
+function Success(props){
+    return(
+        <div className="w-full bg-green-200 text-green-800 rounded border-2 border-green-300 p-4">{props.children}</div>
+    )
+}
+
+function Info(props){
+    return(
+        <div className="w-full bg-blue-100 text-blue-700 rounded border-2 border-blue-200 p-4">{props.children}</div>
+    )
+}
+
+function Alert(props){
+    return(
+        <div className="w-full bg-yellow-200 text-yellow-800 rounded border-2 border-yellow-300 p-4">{props.children}</div>
+    )
+}
+
+/*=================================================================
+                            HEADERS
+===================================================================*/
 function Header(props){
+    // Admitted props : true = needed, false = optional
+    let propsInfos =  {
+                'logo': false,
+                'fixed': false,
+                'title': false,
+                'children': false
+                }
+
+    // Props filter, check whether all the pros are correct
+    let filter = propsFilter(props, propsInfos)
+
+    if(filter[0]){
+        return(
+            <Error>Missing {filter[1]} property</Error>
+        )
+    }
 
     // définition des variables
     var logoImg;
@@ -62,23 +147,29 @@ function Header(props){
 
 
 function HeaderTitleFull(props){
+    // Admitted props : true = needed, false = optional
+    let propsInfos =  {
+                'children': false
+                }
     
-  return(
-    <div className="px-8 py-4 mb-4 bg-gray-300 text-gray-700">
-        {props.children}
-    </div>
-  )
+    return(
+        <div className="px-8 py-4 mb-4 bg-gray-300 text-gray-700">
+            {props.children}
+        </div>
+    )
 }
 
-/*---------------------------------------------------------------
-/*---------------------------------------------------------------
+/*=================================================================
+                            Navs
+===================================================================*/
 
-                          Nav
-
 /*---------------------------------------------------------------
+    Main Nav with reponsible capabilities
 ------------------------------------------------------------------*/
 class Nav extends Component {
     constructor(props) {
+        
+
         super(props)
         this.state = {
             isToggled: false
@@ -98,6 +189,21 @@ class Nav extends Component {
     }
 
     render(){
+
+        // Admitted props : true = needed, false = optional
+        let propsInfos =  {
+                    'position': false,
+                    'children': false,
+                    }
+        // Props filter, check whether all the pros are correct
+        let filter = propsFilter(this.props, propsInfos)
+
+        if(filter[0]){
+            return(
+                <Error>Missing {filter[1]} property</Error>
+            )
+        }
+
         var position = this.props.position;
         if(this.props.position===undefined){
             position = "right";
@@ -159,7 +265,25 @@ class Nav extends Component {
 }
 
 
+
+
+
 function ItemNav(props){
+    // Admitted props : true = needed, false = optional
+    let propsInfos =  {
+                'href': false,
+                'children': false,
+                }
+
+    // Props filter, check whether all the pros are correct
+    let filter = propsFilter(props, propsInfos)
+
+    if(filter[0]){
+        return(
+            <Error>Missing {filter[1]} property</Error>
+        )
+    }
+
     return(
 
         <a href={props.href}>
@@ -173,15 +297,77 @@ function ItemNav(props){
   )
 }
 
-
 /*---------------------------------------------------------------
-/*---------------------------------------------------------------
-
-                          Template
-
-/*---------------------------------------------------------------
+    Sub Nav perfect for in card navigation 
+    ex: put a sub nav on top of a slider to change the content of the slider 
+    according to the selection
 ------------------------------------------------------------------*/
+function SubNav(props){
+    // Admitted props : true = needed, false = optional
+    let propsInfos =  {
+                'children': false,
+                }
+
+    // render
+    return(
+
+        <nav className="flex w-full justify-between items-center p-1">
+            {props.children}
+        </nav>
+  )
+}
+
+function ItemSubNav(props){
+
+    // Admitted props : true = needed, false = optional
+    let propsInfos =  {
+                    'actionOnClick': true,
+                    'destination': true,
+                    'children': false
+                    }
+    // Props filter, check whether all the pros are correct
+    let filter = propsFilter(props, propsInfos)
+
+    if(filter[0]){
+        return(
+            <Error>Missing {filter[1]} property</Error>
+        )
+    }
+
+    // render
+    return(
+
+        <div 
+        className = "bg-gray-300 hover:bg-gray-300 text-gray-900 p-3 text-sm rounded-full"
+        onClick   = {()=>props.actionOnClick(props.destination)}>
+        >
+            {props.children}
+        </div>
+
+  )
+}
+
+
+/*=================================================================
+                        Templates
+===================================================================*/
 function Template(props){
+
+    // Admitted props : true = needed, false = optional
+    let propsInfos =  {
+                    'size': true,
+                    'children': false
+                    }
+
+    // Props filter, check whether all the pros are correct
+    let filter = propsFilter(props, propsInfos)
+
+    if(filter[0]){
+        return(
+            <Error>Missing {filter[1]} property</Error>
+        )
+    }
+
     /*-----------------
     gestion de la hauteur du template
     -------------------*/
@@ -209,9 +395,23 @@ function Template(props){
         default:
             console.log('Unvalid Size please select between xs, md, lg, xl, full');
     }
+
+    // on offre le choix de donner une taille dans les attirbuts. Par défaut la card prend la totalité de l'élement
+    let sizes = {
+                'default': 'h-150',
+                'xs': 'h-56',
+                'sm': 'h-70',
+                'md': 'h-90',
+                'lg': 'h-150',
+                'xl': 'h-200',
+                'full': 'h-screen fixed top-0 left-0 right-0 bottom-0'
+                }
+
+    let templateHeight = switchProps(sizes, props.size);
+
     return(
 
-        <section className={"relative block w-full border-t-2 border-gray-300 overflow-hidden shadow " + size}>
+        <section className={"relative block w-full border-t-2 border-gray-300 overflow-hidden shadow " + templateHeight}>
    
                 {props.children}
 
@@ -223,16 +423,20 @@ function Template(props){
 
 
 class AsideLeft extends Component {
+    
     constructor(props) {
+        
         super(props)
         this.state = {
             isToggled: false
         }
 
+        // bindings of functions
         this.handleClick = this.handleClick.bind(this)
 
     }
 
+    
     /*---------------------------------------------------------------
     gestion du click sur le burger 
     ------------------------------------------------------------------*/
@@ -243,7 +447,11 @@ class AsideLeft extends Component {
     }
 
     render(){
-        
+        // Admitted props : true = needed, false = optional
+        let propsInfos =  {
+                        'children': false
+                        }
+
         /*---------------------------------------------------------------
         gestion du responsive 
         ------------------------------------------------------------------*/
@@ -273,7 +481,7 @@ class AsideLeft extends Component {
                     </div>
                 </section>
                 
-                <section className={launchAnimationMenu + " md:block absolute block top-0 mt-12 md:mt-0  bottom-0 left-0 w-3/5 md:w-1/4 border-r-2 border-gray-300 h-full p-4 overflow-hidden overflow-y-scroll z-20 bg-gray-200 " + menuResponsive}>
+                <section className={launchAnimationMenu + " md:block absolute block top-0 mt-12 md:mt-0  bottom-0 left-0 w-3/5 md:w-1/4 border-r-2 border-gray-300 h-full p-4 overflow-hidden overflow-y-scroll bg-gray-200 " + menuResponsive}>
                     <nav>
                         {this.props.children}
                     </nav>
@@ -292,6 +500,11 @@ class AsideLeft extends Component {
 
 
 function AsideRight(props){
+    // Admitted props : true = needed, false = optional
+    let propsInfos =  {
+                    'children': false
+                    }
+
     return(
 
         <section className="hidden md:block absolute block top-0 bottom-0 right-0 w-1/4 border-r-2 border-gray-200 h-full p-4 overflow-hidden overflow-y-scroll">
@@ -305,6 +518,11 @@ function AsideRight(props){
 }
 
 function ContentRight(props){
+    // Admitted props : true = needed, false = optional
+    let propsInfos =  {
+                    'children': false
+                    }
+
     return(
 
         <section className="w-full absolute block top-0 bottom-0 right-0 md:w-3/4 mt-7 md:mt-0  h-full p-4 overflow-hidden overflow-y-scroll z-10">
@@ -318,6 +536,11 @@ function ContentRight(props){
 }
 
 function ContentLeft(props){
+    // Admitted props : true = needed, false = optional
+    let propsInfos =  {
+                    'children': false
+                    }
+
     return(
 
         <section className="absolute block top-0 bottom-0 left-0 w-3/4 h-full p-4 overflow-hidden overflow-y-scroll">
@@ -332,6 +555,60 @@ function ContentLeft(props){
 
 
 
+/*=================================================================
+                            Actions
+===================================================================*/
+
+function Popup(props){
+
+
+
+    /*---------------------------------------------------------------
+    gestion du click sur le burger 
+    ------------------------------------------------------------------*/
+
+
+    // Admitted props : true = needed, false = optional
+    let propsInfos =  {
+                    'visible': true,
+                    'type': false,
+                    'children': false,
+                    }
+
+    // Props filter, check whether all the pros are correct
+    let filter = propsFilter(props, propsInfos)
+
+    if(filter[0]){
+        return(
+            <Error>Missing {filter[1]} property</Error>
+        )
+    }
+
+    // on offre le choix de donner une taille dans les attirbuts. Par défaut la card prend la totalité de l'élement
+    let types = {
+                'default': 'absolute bg-darkopacity-0.8',
+                'full-dark': 'fixed bg-darkopacity-0.8',
+                'full-light': 'fixed bg-opacity-0.8',
+                'light': 'absolute bg-opacity-0.8',
+                'dark': 'absolute bg-darkopacity-0.8'
+
+                }
+
+    let type = switchProps(types, props.type);
+
+    let toogle = props.visible ? 'block' : 'hidden'
+    return(
+        <section className={type+" overflow-hidden z-50 left-0 top-0 right-0 bottom-0 text-center flex items-center justify-center " + toogle}>
+            <div onClick={()=>props.close()} className="cursor-pointer absolute top-0 right-0 mt-4 mr-4 w-9 h-9 p-2 rounded-full hover:bg-gray-700"><img src={process.env.PUBLIC_URL + '/img/icons/close.png'}/></div>
+            <div className="flex-none">
+                {props.children}
+                {props.visible}
+            </div>
+        </section>
+    )
+    
+
+}
 
 /*---------------------------------------------------------------
 /*---------------------------------------------------------------
@@ -343,31 +620,47 @@ function ContentLeft(props){
 
 
 function Card(props){
-    /*-----------------
-    gestion du flex
-    -------------------*/
-    var flex = ''
-    if(props.flex !== undefined){
-        flex = 'flex';
-    }
+    // Admitted props : true = needed, false = optional
+    let propsInfos =  {
+                    'children': false
+                    }
+
     return(
-        <div className={"relative bg-gray-100 shadow-lg border-t-2 border-gray-200 rounded-lg w-full my-5 overflow-hidden " + flex}>
+        <div className="relative bg-gray-100 shadow-lg border-t-2 border-gray-200 rounded-lg w-full my-5 overflow-hidden ">
             {props.children}
         </div>
     )
 }
 
 function CardImageLeft(props){
+    // Admitted props : true = needed, false = optional
+    let propsInfos =  {
+                    'size': false,
+                    'image': true,
+                    'children': false
+                    }
+
+    // Props filter, check whether all the pros are correct
+    let filter = propsFilter(props, propsInfos)
+
+    if(filter[0]){
+        return(
+            <Error>Missing {filter[1]} property</Error>
+        )
+    }
 
     // on offre le choix de donner une taille dans les attirbuts. Par défaut la card prend la totalité de l'élement
-    let cardSize = 'w-full';
-    if(props.size==='md'){
-        cardSize = 'w-4/5';
-    }
-    else if(props.size==='lg'){
-        cardSize = 'w-5/6';
-    }
-    
+    let sizes = {
+                'default': 'w-full',
+                'xs': 'w-1/4',
+                'sm': 'w-1/2',
+                'md': 'w-3/4',
+                'lg': 'w-4/5',
+                'xl': 'w-5/6',
+                'full': 'w-full'
+                }
+
+    let cardSize = switchProps(sizes, props.size);
 
     return(
         <div className={"CardImageLeft flex-none lg:h-150 overflow-hidden bg-white shadow-lg rounded-lg my-5 "+ cardSize}>
@@ -386,6 +679,21 @@ function CardImageLeft(props){
 }
 
 function CardImageRight(props){
+    // Admitted props : true = needed, false = optional
+    let propsInfos =  {
+                    'size': false,
+                    'image': true,
+                    'children': false
+                    }
+
+    // Props filter, check whether all the pros are correct
+    let filter = propsFilter(props, propsInfos)
+
+    if(filter[0]){
+        return(
+            <Error>Missing {filter[1]} property</Error>
+        )
+    }
 
     // on offre le choix de donner une taille dans les attirbuts. Par défaut la card prend la totalité de l'élement
     let cardSize = 'w-full';
@@ -416,6 +724,24 @@ function CardImageRight(props){
 }
 
 function CardImageFull(props){
+    // Admitted props : true = needed, false = optional
+    let propsInfos =  {
+                    'size': false,
+                    'image': true,
+                    'title': true,
+                    'description': true,
+                    }
+    
+    // Props filter, check whether all the pros are correct
+    let filter = propsFilter(props, propsInfos)
+
+    if(filter[0]){
+        return(
+            <Error>Missing {filter[1]} property</Error>
+        )
+    }
+    
+    // if so we can continue
     const desc = props.description.substring(0, 40)+"...";
     return(
         <section style={{"background":"url("+process.env.PUBLIC_URL + '/img/unsplash/resized/'+props.image+")"}} className="CardImageFull relative bg-white shadow-lg rounded-lg overflow-hidden w-70 h-56 bg-cover bg-center cursor-pointer hover:shadow-xl flex-none mr-6" >
@@ -432,6 +758,14 @@ function CardImageFull(props){
 }
 
 function CardImageTop(props){
+    // Admitted props : true = needed, false = optional
+    let propsInfos =  {
+                    'size': false,
+                    'image': true,
+                    'title': true,
+                    'description': true,
+                    }
+
     const desc = props.description.substring(0, 60)+"...";
     return(
         <section className="CardImageTop bg-white shadow-lg rounded-lg overflow-hidden w-70 h-90 cursor-pointer hover:shadow-xl flex-none" >
@@ -450,6 +784,10 @@ function CardImageTop(props){
 ------------------------------------------------------------------*/
 
 function Slider(props){
+    // Admitted props : true = needed, false = optional
+    let propsInfos =  {
+                    'children': false
+                    }
     return(
         <section className="Slider relative">
             <section className="flex flex-no-wrap w-full py-5 overflow-y-hidden overflow-x-scroll" >
@@ -492,145 +830,467 @@ function Diaporama(props){
                         titles
 ------------------------------------------------------------------*/
 function H1(props){
-  return(
-    <h1 id={props.anchor}
-      className = { titleTemplate + "text-3xl mt-10" }>
-      {props.children}
-    </h1>
-  )
+    // Admitted props : true = needed, false = optional
+    let propsInfos =  {
+                    'anchor': false,
+                    'children': false,
+                    }
+    // Props filter, check whether all the pros are correct
+    let filter = propsFilter(props, propsInfos)
+
+    if(filter[0]){
+        return(
+            <Error>Missing {filter[1]} property</Error>
+        )
+    }
+
+    return(
+        <h1 id={props.anchor}
+        className = { titleTemplate + "text-3xl mt-10" }>
+        {props.children}
+        </h1>
+    )
 }
 
 function H2(props){
-  return(
-    <h2 id={props.anchor}
-      className = { titleTemplate + "text-xl mt-5" }>
-      {props.children}
-    </h2>
-  )
+
+    // Admitted props : true = needed, false = optional
+    let propsInfos =  {
+                    'anchor': false,
+                    'children': false,
+                    }
+
+    // Props filter, check whether all the pros are correct
+    let filter = propsFilter(props, propsInfos)
+
+    if(filter[0]){
+        return(
+            <Error>Missing {filter[1]} property</Error>
+        )
+    }
+
+    return(
+        <h2 id={props.anchor}
+        className = { titleTemplate + "text-xl mt-5" }>
+        {props.children}
+        </h2>
+    )
 }
 
 function H3(props){
-  return(
-    <h3 id={props.anchor}
-      className = { titleTemplate + "text-lg" }>
-      {props.children}
-    </h3>
-  )
+    // Admitted props : true = needed, false = optional
+    let propsInfos =  {
+                    'anchor': false,
+                    'children': false,
+                    }
+
+    // Props filter, check whether all the pros are correct
+    let filter = propsFilter(props, propsInfos)
+
+    if(filter[0]){
+        return(
+            <Error>Missing {filter[1]} property</Error>
+        )
+    }
+
+    return(
+        <h3 id={props.anchor}
+        className = { titleTemplate + "text-lg" }>
+        {props.children}
+        </h3>
+    )
 }
 
 function H4(props){
-  return(
-    <h4 id={props.anchor}
-      className = { titleTemplate + "text-base" }>
-      {props.children}
-    </h4>
-  )
+
+
+    // Admitted props : true = needed, false = optional
+    let propsInfos =  {
+                    'anchor': false,
+                    'children': false,
+                    }
+
+    // Props filter, check whether all the pros are correct
+    let filter = propsFilter(props, propsInfos)
+
+    if(filter[0]){
+        return(
+            <Error>Missing {filter[1]} property</Error>
+        )
+    }
+    
+    // render
+    return(
+        <h4 id={props.anchor}
+        className = { titleTemplate + "text-base" }>
+        {props.children}
+        </h4>
+    )
 }
 
 function H5(props){
-  return(
-    <h4 id={props.anchor}
-      className = { titleTemplate + "text-sm" }>
-      {props.children}
-    </h4>
-  )
+    // Admitted props : true = needed, false = optional
+    let propsInfos =  {
+                    'anchor': false,
+                    'children': false,
+                    }
+
+    // Props filter, check whether all the pros are correct
+    let filter = propsFilter(props, propsInfos)
+
+    if(filter[0]){
+        return(
+            <Error>Missing {filter[1]} property</Error>
+        )
+    }
+    
+    // render 
+    return(
+        <h4 id={props.anchor}
+        className = { titleTemplate + "text-sm" }>
+        {props.children}
+        </h4>
+    )
 }
 
 function H6(props){
-  return(
-    <h4 id={props.anchor}
-      className = { titleTemplate + "text-xs" }>
-      {props.children}
-    </h4>
-  )
+    // Admitted props : true = needed, false = optional
+    let propsInfos =  {
+                    'anchor': false,
+                    'children': false,
+                    }
+
+    // Props filter, check whether all the pros are correct
+    let filter = propsFilter(props, propsInfos)
+
+    if(filter[0]){
+        return(
+            <Error>Missing {filter[1]} property</Error>
+        )
+    }
+
+    // render                
+    return(
+        <h4 id={props.anchor}
+        className = { titleTemplate + "text-xs" }>
+        {props.children}
+        </h4>
+    )
 }
 
 /*---------------------------------------------------------------
                           Buttons
 ------------------------------------------------------------------*/
 function BtnMainFilled(props){
-  return(
-    <button
-      className = { btnTemplate + "bg-brandColor-200 text-brandColor-800 border-brandColor-200 hover:bg-brandColor-300 rounded hover:border-brandColor-300" }
-      onClick   = {()=>props.actionOnClick(props.destination)}>
-      {props.children}
-    </button>
-  )
+    // Admitted props : true = needed, false = optional
+    let propsInfos =  {
+                    'destination': true,
+                    'actionOnClick': true,
+                    'children': false,
+                    }
+
+    // Props filter, check whether all the pros are correct
+    let filter = propsFilter(props, propsInfos)
+
+    if(filter[0]){
+        return(
+            <Error>Missing {filter[1]} property</Error>
+        )
+    }
+
+    return(
+        <button
+        className = { btnTemplate + "bg-brandColor-200 text-brandColor-800 border-brandColor-200 hover:bg-brandColor-300 rounded hover:border-brandColor-300" }
+        onClick   = {()=>props.actionOnClick(props.destination)}>
+        {props.children}
+        </button>
+    )
 }
 
 // boutton avec fond transparent border 4
 function BtnMainStroked(props){
-  return(
-    <button
-      className = { btnTemplate + "bg-transparent text-brandColor-800 border-brandColor-200 hover:bg-brandColor-200 rounded" }
-      onClick   = {()=>props.actionOnClick(props.destination)}>
-      {props.children}
-    </button>
-  )
+    // Admitted props : true = needed, false = optional
+    let propsInfos =  {
+                    'destination': true,
+                    'actionOnClick': true,
+                    'children': false,
+                    }
+
+    // Props filter, check whether all the pros are correct
+    let filter = propsFilter(props, propsInfos)
+
+    if(filter[0]){
+        return(
+            <Error>Missing {filter[1]} property</Error>
+        )
+    }
+
+    return(
+        <button
+        className = { btnTemplate + "bg-transparent text-brandColor-800 border-brandColor-200 hover:bg-brandColor-200 rounded" }
+        onClick   = {()=>props.actionOnClick(props.destination)}>
+        {props.children}
+        </button>
+    )
 }
 
 function BtnMainPillFilled(props){
-  return(
-    <button
-      className = { btnTemplate + "bg-brandColor-200 text-brandColor-800 border-brandColor-200 hover:bg-brandColor-300 rounded-full hover:border-brandColor-300" }
-      onClick   = {()=>props.actionOnClick(props.destination)}>
-      {props.children}
-    </button>
-  )
+    // Admitted props : true = needed, false = optional
+    let propsInfos =  {
+                    'destination': true,
+                    'actionOnClick': true,
+                    'children': false,
+                    }
+
+    // Props filter, check whether all the pros are correct
+    let filter = propsFilter(props, propsInfos)
+
+    if(filter[0]){
+        return(
+            <Error>Missing {filter[1]} property</Error>
+        )
+    }
+
+    return(
+        <button
+        className = { btnTemplate + "bg-brandColor-200 text-brandColor-800 border-brandColor-200 hover:bg-brandColor-300 rounded-full hover:border-brandColor-300" }
+        onClick   = {()=>props.actionOnClick(props.destination)}>
+        {props.children}
+        </button>
+    )
 }
 
 // boutton avec fond transparent border 4
 function BtnMainPillStroked(props){
-  return(
-    <button
-      className = { btnTemplate + "bg-transparent text-brandColor-800 border-brandColor-200 hover:bg-brandColor-200 rounded-full" }
-      onClick   = {()=>props.actionOnClick(props.destination)}>
-      {props.children}
-    </button>
-  )
+    // Admitted props : true = needed, false = optional
+    let propsInfos =  {
+                    'destination': true,
+                    'actionOnClick': true,
+                    'children': false,
+                    }
+
+    // Props filter, check whether all the pros are correct
+    let filter = propsFilter(props, propsInfos)
+
+    if(filter[0]){
+        return(
+            <Error>Missing {filter[1]} property</Error>
+        )
+    }
+
+    return(
+        <button
+        className = { btnTemplate + "bg-transparent text-brandColor-800 border-brandColor-200 hover:bg-brandColor-200 rounded-full" }
+        onClick   = {()=>props.actionOnClick(props.destination)}>
+        {props.children}
+        </button>
+    )
 }
 
 function BtnAltFilled(props){
-  return(
-    <button
-      className={btnTemplate+"bg-gray-300 hover:bg-gray-400 border-gray-300 hover:border-gray-400 text-gray-800 rounded"}
-      onClick={()=>props.actionOnClick(props.destination)}>
-      {props.children}
-    </button>
-  )
+
+    // Admitted props : true = needed, false = optional
+    let propsInfos =  {
+                    'destination': true,
+                    'actionOnClick': true,
+                    'children': false,
+                    }
+
+    // Props filter, check whether all the pros are correct
+    let filter = propsFilter(props, propsInfos)
+
+    if(filter[0]){
+        return(
+            <Error>Missing {filter[1]} property</Error>
+        )
+    }
+
+    return(
+        <button
+        className={btnTemplate+"bg-gray-300 hover:bg-gray-400 border-gray-300 hover:border-gray-400 text-gray-800 rounded"}
+        onClick={()=>props.actionOnClick(props.destination)}>
+        {props.children}
+        </button>
+    )
 }
 
 
 function BtnAltStroked(props){
-  return(
-    <button
-      className={btnTemplate+"bg-transparent hover:bg-gray-400 border-gray-400 text-gray-800 rounded"}
-      onClick={()=>props.actionOnClick(props.destination)}>
-      {props.children}
-    </button>
-  )
+
+    // Admitted props : true = needed, false = optional
+    let propsInfos =  {
+                    'destination': true,
+                    'actionOnClick': true,
+                    'children': false,
+                    }
+                
+    // Props filter, check whether all the pros are correct
+    let filter = propsFilter(props, propsInfos)
+
+    if(filter[0]){
+        return(
+            <Error>Missing {filter[1]} property</Error>
+        )
+    }
+
+    return(
+        <button
+        className={btnTemplate+"bg-transparent hover:bg-gray-400 border-gray-400 text-gray-800 rounded"}
+        onClick={()=>props.actionOnClick(props.destination)}>
+        {props.children}
+        </button>
+    )
 }
 
 function BtnAltPillFilled(props){
-  return(
-    <button
-      className={btnTemplate+"bg-gray-300 hover:bg-gray-400 border-gray-300 hover:border-gray-400 text-gray-800 rounded-full"}
-      onClick={()=>props.actionOnClick(props.destination)}>
-      {props.children}
-    </button>
-  )
+    // Admitted props : true = needed, false = optional
+    let propsInfos =  {
+                    'destination': true,
+                    'actionOnClick': true,
+                    'children': false,
+                    }
+
+    // Props filter, check whether all the pros are correct
+    let filter = propsFilter(props, propsInfos)
+
+    if(filter[0]){
+        return(
+            <Error>Missing {filter[1]} property</Error>
+        )
+    }
+
+    return(
+        <button
+        className={btnTemplate+"bg-gray-300 hover:bg-gray-400 border-gray-300 hover:border-gray-400 text-gray-800 rounded-full"}
+        onClick={()=>props.actionOnClick(props.destination)}>
+        {props.children}
+        </button>
+    )
 }
 
 
 function BtnAltPillStroked(props){
-  return(
-    <button
-      className={btnTemplate+"bg-transparent hover:bg-gray-400  border-gray-400 text-gray-800 rounded-full"}
-      onClick={()=>props.actionOnClick(props.destination)}>
-      {props.children}
-    </button>
-  )
+    // Admitted props : true = needed, false = optional
+    let propsInfos =  {
+                    'destination': true,
+                    'actionOnClick': true,
+                    'children': false,
+                    }
+
+    // Props filter, check whether all the pros are correct
+    let filter = propsFilter(props, propsInfos)
+
+    if(filter[0]){
+        return(
+            <Error>Missing {filter[1]} property</Error>
+        )
+    }
+
+    return(
+        <button
+        className={btnTemplate+"bg-transparent hover:bg-gray-400  border-gray-400 text-gray-800 rounded-full"}
+        onClick={()=>props.actionOnClick(props.destination)}>
+        {props.children}
+        </button>
+    )
 }
+
+
+
+function BtnError(props){
+    // Admitted props : true = needed, false = optional
+    let propsInfos =  {
+                    'destination': true,
+                    'actionOnClick': true,
+                    'children': false,
+                    }
+
+    // Props filter, check whether all the pros are correct
+    let filter = propsFilter(props, propsInfos)
+
+    if(filter[0]){
+        return(
+            <Error>Missing {filter[1]} property</Error>
+        )
+    }
+
+    return(
+        <button
+        className={btnTemplate+"bg-red-200 hover:bg-red-300  border-red-200 hover:border-red-300  text-red-800 rounded-full"}
+        onClick={()=>props.actionOnClick(props.destination)}>
+        {props.children}
+        </button>
+    )
+}
+
+function BtnSuccess(props){
+    // Admitted props : true = needed, false = optional
+    let propsInfos =  {
+                    'destination': true,
+                    'actionOnClick': true,
+                    'children': false,
+                    }
+
+    // Props filter, check whether all the pros are correct
+    let filter = propsFilter(props, propsInfos)
+
+    if(filter[0]){
+        return(
+            <Error>Missing {filter[1]} property</Error>
+        )
+    }
+
+    return(
+        <button
+        className={btnTemplate+"bg-green-200 hover:bg-green-300  border-green-200 hover:border-green-300 text-green-800 rounded-full"}
+        onClick={()=>props.actionOnClick(props.destination)}>
+        {props.children}
+        </button>
+    )
+}
+
+
+
+/*---------------------------------------------------------------
+                          link
+------------------------------------------------------------------*/
+
+function A(props){
+    // Admitted props : true = needed, false = optional
+    let propsInfos =  {
+                    'destination': false,
+                    'href': false,
+                    'children': false,
+                    }
+                
+    // Props filter, check whether all the pros are correct
+    let filter = propsFilter(props, propsInfos)
+
+    if(filter[0]){
+        return(
+            <Error>Missing {filter[1]} property</Error>
+        )
+    }
+
+    var html;
+    var classes = "";
+
+    /*-----------------------------------------------
+    Choose between a <a> or a js onClick with props
+    -------------------------------------------------*/
+
+    if(props.href!==undefined && props.actionOnClick === undefined){
+        html = <a href={props.href} className={classes}>{props.children}</a>
+    }
+    else if(props.href===undefined && props.destination !== undefined) {
+        html = <span onClick={()=>props.actionOnClick(props.destination)} className={classes}>{props.children}</span>
+    }
+    return(
+        {html}
+    )
+}
+
+
 
 /*---------------------------------------------------------------
                           inputs
@@ -642,13 +1302,15 @@ function BtnAltPillStroked(props){
  * 
  */
 class InputTextMovingLabel extends Component {
+
     constructor(props) {
-      super(props)
-      // l'état par défaut de la page est home et il n'y a pas d'image sur la page home d'ou id, date et filename nuls
-      this.state = {
-          inputValue: '',
-          onFocusClasses: '',
-      };
+
+        super(props)
+        // l'état par défaut de la page est home et il n'y a pas d'image sur la page home d'ou id, date et filename nuls
+        this.state = {
+            inputValue: '',
+            onFocusClasses: '',
+        };
     }
 
     updateInputValue(evt) {
@@ -675,6 +1337,20 @@ class InputTextMovingLabel extends Component {
 
     render(){
         
+        // Admitted props : true = needed, false = optional
+        let propsInfos =  {
+                        'label': true
+                        }
+
+        // Props filter, check whether all the pros are correct
+        let filter = propsFilter(this.props, propsInfos)
+
+        if(filter[0]){
+            return(
+                <Error>Missing {filter[1]} property</Error>
+            )
+        }
+
         return(
         <div className="relative h-16 w-full">
             <input 
@@ -707,15 +1383,17 @@ class InputTextMovingLabel extends Component {
  * 
  */
 class InputTextMovingPlaceholder extends Component {
+    
     constructor(props) {
-      super(props)
-      // l'état par défaut de la page est home et il n'y a pas d'image sur la page home d'ou id, date et filename nuls
-      this.state = {
-          inputValue: '',
-          inputPlaceholder: '',
-          labelPlaceholder: '',
-          launchAnimation: '',
-      };
+        
+        super(props)
+        // l'état par défaut de la page est home et il n'y a pas d'image sur la page home d'ou id, date et filename nuls
+        this.state = {
+            inputValue: '',
+            inputPlaceholder: '',
+            labelPlaceholder: '',
+            launchAnimation: '',
+        };
     }
 
     updateInputValue(evt) {
@@ -754,7 +1432,21 @@ class InputTextMovingPlaceholder extends Component {
     }
 
     render(){
-        
+        // Admitted props : true = needed, false = optional
+        let propsInfos =  {
+                        'label': true,
+                        'placeholder': true
+                        }
+
+        // Props filter, check whether all the pros are correct
+        let filter = propsFilter(this.props, propsInfos)
+
+        if(filter[0]){
+            return(
+                <Error>Missing {filter[1]} property</Error>
+            )
+        }
+
         return(
 
         <div className="relative h-16 w-full my-2">
@@ -798,21 +1490,35 @@ class InputTextMovingPlaceholder extends Component {
  * 
  */
 function InputText(props){
-  return(
-    <div className="relative h-16 w-full">
-        <input 
-            type="text"
-            className="pl-2 absolute bottom-0 l-0 h-10 w-full bg-gray-100 focus:bg-gray-200 border-2 border-gray-200 text-gray-800 rounded outline-none"
-            required="required"
+    // Admitted props : true = needed, false = optional
+    let propsInfos =  {
+                    'label': true
+                    }
+    
+    // Props filter, check whether all the pros are correct
+    let filter = propsFilter(props, propsInfos)
 
-        />
+    if(filter[0]){
+        return(
+            <Error>Missing {filter[1]} property</Error>
+        )
+    }
 
-        <span className="absolute top-0 l-0 mt-1 uppercase tracking-wide text-xs text-gray-800 font-semibold">         
-            {props.label}
-        </span>
+    return(
+        <div className="relative h-16 w-full">
+            <input 
+                type="text"
+                className="pl-2 absolute bottom-0 l-0 h-10 w-full bg-gray-100 focus:bg-gray-200 border-2 border-gray-200 text-gray-800 rounded outline-none"
+                required="required"
 
-    </div>
-  )
+            />
+
+            <span className="absolute top-0 l-0 mt-1 uppercase tracking-wide text-xs text-gray-800 font-semibold">         
+                {props.label}
+            </span>
+
+        </div>
+    )
 }
 
 
@@ -821,6 +1527,19 @@ function InputText(props){
 ------------------------------------------------------------------*/
 
 function Markdown(props){
+    // Admitted props : true = needed, false = optional
+    let propsInfos =  {
+                    'code': true
+                    }
+
+    // Props filter, check whether all the pros are correct
+    let filter = propsFilter(props, propsInfos)
+
+    if(filter[0]){
+        return(
+            <Error>Missing {filter[1]} property</Error>
+        )
+    }
 
     return(
         <div className="my-4">
@@ -830,10 +1549,17 @@ function Markdown(props){
 }
 
 function Doc(props){
+    // Admitted props : true = needed, false = optional
+    let propsInfos =  {
+                    'keyword': true,
+                    'type': false,
+                    'children': false
+                    }
+
     return(
         <div className="my-2">
             <span className="font-mono text-brandColor-500 font-medium"><i>{props.keyword}</i></span>
-            <span className="mx-1 font-mono text-gray-600 text-sm">({props.type}):</span>
+            <span className="mx-1 font-mono text-gray-600 text-sm">({props.type})</span>:
             <span>{props.children}</span>
         </div>
     )
@@ -846,9 +1572,11 @@ function Doc(props){
 ------------------------------------------------------------------*/
 
 function Hr(props){
-  return(
-    <hr className='my-2'/>
-  )
+    // Admitted props : true = needed, false = optional
+    let propsInfos =  {}
+    return(
+        <hr className='my-2'/>
+    )
 }
 
 
@@ -875,6 +1603,8 @@ export {
     BtnAltStroked,
     BtnAltPillFilled,
     BtnAltPillStroked,
+    BtnSuccess,
+    BtnError,
     H1,
     H2,
     H3,
@@ -892,6 +1622,12 @@ export {
     CardImageFull,
     CardImageTop,
     Slider,
-    Diaporama
+    Diaporama,
+    Error,
+    Success,
+    Info,
+    Alert,
+    Popup
+
 }
 
