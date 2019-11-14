@@ -21,7 +21,7 @@ You can modify the style of each component in Components.js thanks to the utilit
 
 It helps you to make reponsive way faster, eliminates the need to find fancy class names such as content-item-title-wrapper and since we generate components once they are created, we don't have to worry about repetability. Finally, since there is a finite numbers of options, it saves us from settings arbitrary withs and colors and helps us keep things cohesive.
 
-Some features, such as animations, are not supported by Tailwind yet, so you can write your own classes in the *src/styles/index.css* stylecheet. If you do so, **you will have to restart your server**  to see the modifications.
+Some features, such as animations, are not supported by Tailwind yet, so you can write your own classes in the *src/styles/index.css* stylesheet. If you do so, **you will have to restart your server**  to see the modifications.
 
 You can also add some specifications to the tailwind library in the extend property of the array in *tailwind.config.js*. 
 
@@ -35,6 +35,8 @@ Here is the list of the components, more will be added soon.
 #### Navs
 - Nav
 - ItemNav
+- SubNav
+- ItemSubNav
 
 #### Templates
 - Template
@@ -50,6 +52,9 @@ Here is the list of the components, more will be added soon.
 - CardImageFull
 - CardImageTop
 
+#### Popups
+- Popup
+
 #### Slider
 - Slider
 
@@ -64,6 +69,8 @@ Here is the list of the components, more will be added soon.
 - BtnAltStroked
 - BtnAltPillFilled
 - BtnAltPillStroked
+- BtnSucess
+- BtnError
 
 #### Titles
 - H1
@@ -81,5 +88,11 @@ Here is the list of the components, more will be added soon.
 #### Doc
 - Markdown
 - Doc
+- InlineCode
 
+#### Alerts
+- Error
+- Success
+- Info
+- Alert
 
