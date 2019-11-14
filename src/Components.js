@@ -27,9 +27,10 @@ var headerHeight    = "16";
 ------------------------------------------------------------------*/
 
 
-function propsFilter(props, propsInfos){
+function propsFilter(component, props, propsInfos){
     var missingProps = []
     var isError = false;
+    
     // -- comparison of arrays
     for(var propSaved in propsInfos){
 
@@ -37,12 +38,22 @@ function propsFilter(props, propsInfos){
         if(!(propSaved in props)){
             if(propsInfos[propSaved]===true){
                 isError = true;
-                missingProps.push(<span className="bg-red-200 p-1 mx-1 rounded">{propSaved}</span>);
-                
+                missingProps.push(<Error>Missing <span className="bg-red-200 p-1 rounded">{propSaved}</span> property in <span className="bg-red-100 p-1 mx-1 rounded-full">{component}</span></Error>);
             }
       
         }
     } 
+    for(var prop in props){
+        if(prop!=='children'){
+            // if one prop saved isn't in props we check if it's optional
+            if(!(prop in propsInfos)){
+                
+                    isError = true;
+                    missingProps.push(<Alert>Unknown <span className="bg-yellow-300 p-1 rounded">{prop}</span> property in <span className="border-2 border-yellow-300 p-1 px-2 rounded-full">{component}</span></Alert>);
+
+            }
+        }
+    }
     // return of false and the missing prop
     return([isError, missingProps])
 }
@@ -69,25 +80,33 @@ function switchProps(choices, prop){
 
 function Error(props){
     return(
-        <div className="w-full bg-red-100 text-red-700 rounded border-2 border-red-200 p-4">{props.children}</div>
+        <div className="w-full relative bg-red-100 text-red-700 rounded border-2 border-red-200">
+            <div className="m-2">{props.children}</div>
+        </div>
     )
 }
 
 function Success(props){
     return(
-        <div className="w-full bg-green-200 text-green-800 rounded border-2 border-green-300 p-4">{props.children}</div>
+        <div className="w-full bg-green-200 text-green-800 rounded border-2 border-green-300">
+            <div className="m-2">{props.children}</div>
+        </div>
     )
 }
 
 function Info(props){
     return(
-        <div className="w-full bg-blue-100 text-blue-700 rounded border-2 border-blue-200 p-4">{props.children}</div>
+        <div className="w-full bg-blue-100 text-blue-700 rounded border-2 border-blue-200">
+            <div className="m-2">{props.children}</div>
+        </div>
     )
 }
 
 function Alert(props){
     return(
-        <div className="w-full bg-yellow-200 text-yellow-800 rounded border-2 border-yellow-300 p-4">{props.children}</div>
+        <div className="w-full overflow-hidden bg-yellow-200 text-yellow-800 rounded border-2 border-yellow-300">
+            <div className="m-2">{props.children}</div>
+        </div>
     )
 }
 
@@ -95,6 +114,9 @@ function Alert(props){
                             HEADERS
 ===================================================================*/
 function Header(props){
+    // -- component name
+    let componentName = 'Header'
+
     // Admitted props : true = needed, false = optional
     let propsInfos =  {
                 'logo': false,
@@ -102,13 +124,13 @@ function Header(props){
                 'title': false,
                 'children': false
                 }
-
+    
     // Props filter, check whether all the pros are correct
-    let filter = propsFilter(props, propsInfos)
+    let filter = propsFilter(componentName, props, propsInfos)
 
     if(filter[0]){
         return(
-            <Error>Missing {filter[1]} property</Error>
+            filter[1]
         )
     }
 
@@ -147,6 +169,9 @@ function Header(props){
 
 
 function HeaderTitleFull(props){
+    // -- component name
+    let componentName = 'HeaderTitleFull'
+
     // Admitted props : true = needed, false = optional
     let propsInfos =  {
                 'children': false
@@ -189,6 +214,8 @@ class Nav extends Component {
     }
 
     render(){
+        // -- component name
+        let componentName = 'Nav'
 
         // Admitted props : true = needed, false = optional
         let propsInfos =  {
@@ -196,11 +223,11 @@ class Nav extends Component {
                     'children': false,
                     }
         // Props filter, check whether all the pros are correct
-        let filter = propsFilter(this.props, propsInfos)
+        let filter = propsFilter(componentName, this.props, propsInfos)
 
         if(filter[0]){
             return(
-                <Error>Missing {filter[1]} property</Error>
+                filter[1]
             )
         }
 
@@ -269,6 +296,9 @@ class Nav extends Component {
 
 
 function ItemNav(props){
+    // -- component name
+    let componentName = 'ItemNav'
+
     // Admitted props : true = needed, false = optional
     let propsInfos =  {
                 'href': false,
@@ -276,11 +306,11 @@ function ItemNav(props){
                 }
 
     // Props filter, check whether all the pros are correct
-    let filter = propsFilter(props, propsInfos)
+    let filter = propsFilter(componentName, props, propsInfos)
 
     if(filter[0]){
         return(
-            <Error>Missing {filter[1]} property</Error>
+            filter[1]
         )
     }
 
@@ -303,6 +333,9 @@ function ItemNav(props){
     according to the selection
 ------------------------------------------------------------------*/
 function SubNav(props){
+    // -- component name
+    let componentName = 'SubNav'
+
     // Admitted props : true = needed, false = optional
     let propsInfos =  {
                 'children': false,
@@ -311,38 +344,43 @@ function SubNav(props){
     // render
     return(
 
-        <nav className="flex w-full justify-between items-center p-1">
+        <nav className="flex w-full items-center p-1">
             {props.children}
         </nav>
   )
 }
 
 function ItemSubNav(props){
+    // -- component name
+    let componentName = 'ItemSubNav'
 
     // Admitted props : true = needed, false = optional
     let propsInfos =  {
                     'actionOnClick': true,
-                    'destination': true,
+                    'destination': false,
                     'children': false
                     }
     // Props filter, check whether all the pros are correct
-    let filter = propsFilter(props, propsInfos)
+    let filter = propsFilter(componentName, props, propsInfos)
 
     if(filter[0]){
         return(
-            <Error>Missing {filter[1]} property</Error>
+            filter[1]
         )
+    }
+
+    function handleClick(props){            
+        props.actionOnClick(props.destination)
     }
 
     // render
     return(
 
-        <div 
-        className = "bg-gray-300 hover:bg-gray-300 text-gray-900 p-3 text-sm rounded-full"
-        onClick   = {()=>props.actionOnClick(props.destination)}>
-        >
+        <button 
+        className = " bg-gray-300 hover:bg-gray-400 focus:bg-brandColor-300 text-gray-900 px-5 py-2 cursor-pointer text-sm rounded-full mr-2 outline-none "
+        onClick   = {()=>handleClick(props)}>
             {props.children}
-        </div>
+        </button>
 
   )
 }
@@ -352,6 +390,9 @@ function ItemSubNav(props){
                         Templates
 ===================================================================*/
 function Template(props){
+    // -- component name
+    let componentName = 'Template'
+
 
     // Admitted props : true = needed, false = optional
     let propsInfos =  {
@@ -360,11 +401,11 @@ function Template(props){
                     }
 
     // Props filter, check whether all the pros are correct
-    let filter = propsFilter(props, propsInfos)
+    let filter = propsFilter(componentName, props, propsInfos)
 
     if(filter[0]){
         return(
-            <Error>Missing {filter[1]} property</Error>
+            filter[1]
         )
     }
 
@@ -447,6 +488,9 @@ class AsideLeft extends Component {
     }
 
     render(){
+        // -- component name
+        let componentName = 'AsideLeft'
+
         // Admitted props : true = needed, false = optional
         let propsInfos =  {
                         'children': false
@@ -481,7 +525,7 @@ class AsideLeft extends Component {
                     </div>
                 </section>
                 
-                <section className={launchAnimationMenu + " md:block absolute block top-0 mt-12 md:mt-0  bottom-0 left-0 w-3/5 md:w-1/4 border-r-2 border-gray-300 h-full p-4 overflow-hidden overflow-y-scroll bg-gray-200 " + menuResponsive}>
+                <section className={launchAnimationMenu + " md:block absolute block top-0 mt-12 md:mt-0 z-20 md:z-0 bottom-0 left-0 w-3/5 md:w-1/4 border-r-2 border-gray-300 h-full p-4 overflow-hidden overflow-y-scroll bg-gray-200 " + menuResponsive}>
                     <nav>
                         {this.props.children}
                     </nav>
@@ -500,6 +544,9 @@ class AsideLeft extends Component {
 
 
 function AsideRight(props){
+    // -- component name
+    let componentName = 'AsideRight'
+
     // Admitted props : true = needed, false = optional
     let propsInfos =  {
                     'children': false
@@ -518,6 +565,9 @@ function AsideRight(props){
 }
 
 function ContentRight(props){
+    // -- component name
+    let componentName = 'ContentRight'
+
     // Admitted props : true = needed, false = optional
     let propsInfos =  {
                     'children': false
@@ -536,6 +586,9 @@ function ContentRight(props){
 }
 
 function ContentLeft(props){
+    // -- component name
+    let componentName = 'ContentLeft'
+
     // Admitted props : true = needed, false = optional
     let propsInfos =  {
                     'children': false
@@ -560,27 +613,23 @@ function ContentLeft(props){
 ===================================================================*/
 
 function Popup(props){
-
-
-
-    /*---------------------------------------------------------------
-    gestion du click sur le burger 
-    ------------------------------------------------------------------*/
-
+    // -- component name
+    let componentName = 'Popup'
 
     // Admitted props : true = needed, false = optional
     let propsInfos =  {
+                    'close': true,
                     'visible': true,
                     'type': false,
                     'children': false,
                     }
 
     // Props filter, check whether all the pros are correct
-    let filter = propsFilter(props, propsInfos)
+    let filter = propsFilter(componentName, props, propsInfos)
 
     if(filter[0]){
         return(
-            <Error>Missing {filter[1]} property</Error>
+            filter[1]
         )
     }
 
@@ -597,6 +646,7 @@ function Popup(props){
     let type = switchProps(types, props.type);
 
     let toogle = props.visible ? 'block' : 'hidden'
+
     return(
         <section className={type+" overflow-hidden z-50 left-0 top-0 right-0 bottom-0 text-center flex items-center justify-center " + toogle}>
             <div onClick={()=>props.close()} className="cursor-pointer absolute top-0 right-0 mt-4 mr-4 w-9 h-9 p-2 rounded-full hover:bg-gray-700"><img src={process.env.PUBLIC_URL + '/img/icons/close.png'}/></div>
@@ -620,19 +670,25 @@ function Popup(props){
 
 
 function Card(props){
+    // -- component name
+    let componentName = 'Card'
+
     // Admitted props : true = needed, false = optional
     let propsInfos =  {
                     'children': false
                     }
 
     return(
-        <div className="relative bg-gray-100 shadow-lg border-t-2 border-gray-200 rounded-lg w-full my-5 overflow-hidden ">
+        <div className="relative bg-gray-100 shadow-lg border-t-2 border-gray-200 rounded-lg w-full my-5 p-2 overflow-hidden ">
             {props.children}
         </div>
     )
 }
 
 function CardImageLeft(props){
+    // -- component name
+    let componentName = 'CardImageLeft'
+
     // Admitted props : true = needed, false = optional
     let propsInfos =  {
                     'size': false,
@@ -641,11 +697,11 @@ function CardImageLeft(props){
                     }
 
     // Props filter, check whether all the pros are correct
-    let filter = propsFilter(props, propsInfos)
+    let filter = propsFilter(componentName, props, propsInfos)
 
     if(filter[0]){
         return(
-            <Error>Missing {filter[1]} property</Error>
+            filter[1]
         )
     }
 
@@ -679,6 +735,9 @@ function CardImageLeft(props){
 }
 
 function CardImageRight(props){
+    // -- component name
+    let componentName = 'CardImageRight'
+
     // Admitted props : true = needed, false = optional
     let propsInfos =  {
                     'size': false,
@@ -687,11 +746,11 @@ function CardImageRight(props){
                     }
 
     // Props filter, check whether all the pros are correct
-    let filter = propsFilter(props, propsInfos)
+    let filter = propsFilter(componentName, props, propsInfos)
 
     if(filter[0]){
         return(
-            <Error>Missing {filter[1]} property</Error>
+            filter[1]
         )
     }
 
@@ -724,27 +783,43 @@ function CardImageRight(props){
 }
 
 function CardImageFull(props){
+    // -- component name
+    let componentName = 'CardImageFull'
+
     // Admitted props : true = needed, false = optional
     let propsInfos =  {
                     'size': false,
+                    'setTargetName': false,
                     'image': true,
                     'title': true,
                     'description': true,
                     }
     
     // Props filter, check whether all the pros are correct
-    let filter = propsFilter(props, propsInfos)
+    let filter = propsFilter(componentName, props, propsInfos)
 
     if(filter[0]){
-        return(
-            <Error>Missing {filter[1]} property</Error>
-        )
+        console.log(filter[1])
+        return(filter[1])
     }
+
+    // on offre le choix de donner une taille dans les attirbuts. Par défaut la card prend la totalité de l'élement
+    let sizes = {
+                'default': 'w-70 h-56',
+                'xs': 'w-48 h-40',
+                'sm': 'w-56 h-48',
+                'md': 'w-70 h-56',
+                'lg': 'w-90 h-80',
+                'xl': 'w-125 h-90',
+
+                }
+
+    let cardSize = switchProps(sizes, props.size);
     
     // if so we can continue
     const desc = props.description.substring(0, 40)+"...";
     return(
-        <section style={{"background":"url("+process.env.PUBLIC_URL + '/img/unsplash/resized/'+props.image+")"}} className="CardImageFull relative bg-white shadow-lg rounded-lg overflow-hidden w-70 h-56 bg-cover bg-center cursor-pointer hover:shadow-xl flex-none mr-6" >
+        <section style={{"background":"url("+process.env.PUBLIC_URL + '/img/unsplash/resized/'+props.image+")"}} className={cardSize + " CardImageFull relative bg-white shadow-lg rounded-lg overflow-hidden bg-cover bg-center cursor-pointer hover:shadow-xl flex-none mr-6"} >
 
             <div className="absolute top-0 left-0 right-0 bottom-0 bg-darkGradient">
                 <div className="absolute bottom-0 mx-4 mb-4">
@@ -758,9 +833,13 @@ function CardImageFull(props){
 }
 
 function CardImageTop(props){
+    // -- component name
+    let componentName = 'CardImageTop'
+
     // Admitted props : true = needed, false = optional
     let propsInfos =  {
                     'size': false,
+                    'setTargetName': false,
                     'image': true,
                     'title': true,
                     'description': true,
@@ -784,13 +863,21 @@ function CardImageTop(props){
 ------------------------------------------------------------------*/
 
 function Slider(props){
+    // -- component name
+    let componentName = 'Slider'
+
     // Admitted props : true = needed, false = optional
     let propsInfos =  {
+                    'name': false,
+                    'visible': false,
                     'children': false
                     }
+
+    let toogle = props.visible ? 'block' : 'hidden'
+
     return(
         <section className="Slider relative">
-            <section className="flex flex-no-wrap w-full py-5 overflow-y-hidden overflow-x-scroll" >
+            <section className={"flex flex-no-wrap w-full py-5 overflow-y-hidden overflow-x-scroll " + toogle} >
                 {props.children}
                 <div className="h-1 w-10 flex-none"></div>
             </section>
@@ -830,17 +917,20 @@ function Diaporama(props){
                         titles
 ------------------------------------------------------------------*/
 function H1(props){
+    // -- component name
+    let componentName = 'H1'
+    
     // Admitted props : true = needed, false = optional
     let propsInfos =  {
                     'anchor': false,
                     'children': false,
                     }
     // Props filter, check whether all the pros are correct
-    let filter = propsFilter(props, propsInfos)
+    let filter = propsFilter(componentName, props, propsInfos)
 
     if(filter[0]){
         return(
-            <Error>Missing {filter[1]} property</Error>
+            filter[1]
         )
     }
 
@@ -853,6 +943,9 @@ function H1(props){
 }
 
 function H2(props){
+    // -- component name
+    let componentName = 'H2'
+
 
     // Admitted props : true = needed, false = optional
     let propsInfos =  {
@@ -861,11 +954,11 @@ function H2(props){
                     }
 
     // Props filter, check whether all the pros are correct
-    let filter = propsFilter(props, propsInfos)
+    let filter = propsFilter(componentName, props, propsInfos)
 
     if(filter[0]){
         return(
-            <Error>Missing {filter[1]} property</Error>
+            filter[1]
         )
     }
 
@@ -878,6 +971,9 @@ function H2(props){
 }
 
 function H3(props){
+    // -- component name
+    let componentName = 'H3'
+
     // Admitted props : true = needed, false = optional
     let propsInfos =  {
                     'anchor': false,
@@ -885,11 +981,11 @@ function H3(props){
                     }
 
     // Props filter, check whether all the pros are correct
-    let filter = propsFilter(props, propsInfos)
+    let filter = propsFilter(componentName, props, propsInfos)
 
     if(filter[0]){
         return(
-            <Error>Missing {filter[1]} property</Error>
+            filter[1]
         )
     }
 
@@ -902,7 +998,8 @@ function H3(props){
 }
 
 function H4(props){
-
+    // -- component name
+    let componentName = 'H4'
 
     // Admitted props : true = needed, false = optional
     let propsInfos =  {
@@ -911,11 +1008,11 @@ function H4(props){
                     }
 
     // Props filter, check whether all the pros are correct
-    let filter = propsFilter(props, propsInfos)
+    let filter = propsFilter(componentName, props, propsInfos)
 
     if(filter[0]){
         return(
-            <Error>Missing {filter[1]} property</Error>
+            filter[1]
         )
     }
     
@@ -929,6 +1026,9 @@ function H4(props){
 }
 
 function H5(props){
+    // -- component name
+    let componentName = 'H5'
+
     // Admitted props : true = needed, false = optional
     let propsInfos =  {
                     'anchor': false,
@@ -936,11 +1036,11 @@ function H5(props){
                     }
 
     // Props filter, check whether all the pros are correct
-    let filter = propsFilter(props, propsInfos)
+    let filter = propsFilter(componentName, props, propsInfos)
 
     if(filter[0]){
         return(
-            <Error>Missing {filter[1]} property</Error>
+            filter[1]
         )
     }
     
@@ -954,6 +1054,9 @@ function H5(props){
 }
 
 function H6(props){
+    // -- component name
+    let componentName = 'H6'
+
     // Admitted props : true = needed, false = optional
     let propsInfos =  {
                     'anchor': false,
@@ -961,11 +1064,11 @@ function H6(props){
                     }
 
     // Props filter, check whether all the pros are correct
-    let filter = propsFilter(props, propsInfos)
+    let filter = propsFilter(componentName, props, propsInfos)
 
     if(filter[0]){
         return(
-            <Error>Missing {filter[1]} property</Error>
+            filter[1]
         )
     }
 
@@ -982,19 +1085,23 @@ function H6(props){
                           Buttons
 ------------------------------------------------------------------*/
 function BtnMainFilled(props){
+    // -- component name
+    let componentName = 'BtnMainFilled'
+
     // Admitted props : true = needed, false = optional
     let propsInfos =  {
-                    'destination': true,
+                    'destination': false,
+                    'setTargetName': false,
                     'actionOnClick': true,
                     'children': false,
                     }
 
     // Props filter, check whether all the pros are correct
-    let filter = propsFilter(props, propsInfos)
+    let filter = propsFilter(componentName, props, propsInfos)
 
     if(filter[0]){
         return(
-            <Error>Missing {filter[1]} property</Error>
+            filter[1]
         )
     }
 
@@ -1009,45 +1116,53 @@ function BtnMainFilled(props){
 
 // boutton avec fond transparent border 4
 function BtnMainStroked(props){
+    // -- component name
+    let componentName = 'BtnMainStroked'
+
     // Admitted props : true = needed, false = optional
     let propsInfos =  {
-                    'destination': true,
-                    'actionOnClick': true,
+                    'destination': false,
+                    'setTargetName': false,
+                    'actionOnClick': false,
                     'children': false,
                     }
 
     // Props filter, check whether all the pros are correct
-    let filter = propsFilter(props, propsInfos)
+    let filter = propsFilter(componentName, props, propsInfos)
 
     if(filter[0]){
         return(
-            <Error>Missing {filter[1]} property</Error>
+            filter[1]
         )
     }
 
     return(
         <button
         className = { btnTemplate + "bg-transparent text-brandColor-800 border-brandColor-200 hover:bg-brandColor-200 rounded" }
-        onClick   = {()=>props.actionOnClick(props.destination)}>
+        onClick   = {()=>props.actionOnClick()}>
         {props.children}
         </button>
     )
 }
 
 function BtnMainPillFilled(props){
+    // -- component name
+    let componentName = 'BtnMainPillFilled'
+
     // Admitted props : true = needed, false = optional
     let propsInfos =  {
-                    'destination': true,
+                    'destination': false,
+                    'setTargetName': false,
                     'actionOnClick': true,
                     'children': false,
                     }
 
     // Props filter, check whether all the pros are correct
-    let filter = propsFilter(props, propsInfos)
+    let filter = propsFilter(componentName, props, propsInfos)
 
     if(filter[0]){
         return(
-            <Error>Missing {filter[1]} property</Error>
+            filter[1]
         )
     }
 
@@ -1062,19 +1177,23 @@ function BtnMainPillFilled(props){
 
 // boutton avec fond transparent border 4
 function BtnMainPillStroked(props){
+    // -- component name
+    let componentName = 'BtnMainPillStroked'
+
     // Admitted props : true = needed, false = optional
     let propsInfos =  {
-                    'destination': true,
+                    'destination': false,
+                    'setTargetName': false,
                     'actionOnClick': true,
                     'children': false,
                     }
 
     // Props filter, check whether all the pros are correct
-    let filter = propsFilter(props, propsInfos)
+    let filter = propsFilter(componentName, props, propsInfos)
 
     if(filter[0]){
         return(
-            <Error>Missing {filter[1]} property</Error>
+            filter[1]
         )
     }
 
@@ -1088,20 +1207,23 @@ function BtnMainPillStroked(props){
 }
 
 function BtnAltFilled(props){
+    // -- component name
+    let componentName = 'BtnAltFilled'
 
     // Admitted props : true = needed, false = optional
     let propsInfos =  {
-                    'destination': true,
+                    'destination': false,
+                    'setTargetName': false,
                     'actionOnClick': true,
                     'children': false,
                     }
 
     // Props filter, check whether all the pros are correct
-    let filter = propsFilter(props, propsInfos)
+    let filter = propsFilter(componentName, props, propsInfos)
 
     if(filter[0]){
         return(
-            <Error>Missing {filter[1]} property</Error>
+            filter[1]
         )
     }
 
@@ -1116,20 +1238,23 @@ function BtnAltFilled(props){
 
 
 function BtnAltStroked(props){
+    // -- component name
+    let componentName = 'BtnAltStroked'
 
     // Admitted props : true = needed, false = optional
     let propsInfos =  {
-                    'destination': true,
+                    'destination': false,
+                    'setTargetName': false,
                     'actionOnClick': true,
                     'children': false,
                     }
                 
     // Props filter, check whether all the pros are correct
-    let filter = propsFilter(props, propsInfos)
+    let filter = propsFilter(componentName, props, propsInfos)
 
     if(filter[0]){
         return(
-            <Error>Missing {filter[1]} property</Error>
+            filter[1]
         )
     }
 
@@ -1143,19 +1268,23 @@ function BtnAltStroked(props){
 }
 
 function BtnAltPillFilled(props){
+    // -- component name
+    let componentName = 'BtnAltPillFilled'
+
     // Admitted props : true = needed, false = optional
     let propsInfos =  {
-                    'destination': true,
+                    'destination': false,
+                    'setTargetName': false,
                     'actionOnClick': true,
                     'children': false,
                     }
 
     // Props filter, check whether all the pros are correct
-    let filter = propsFilter(props, propsInfos)
+    let filter = propsFilter(componentName, props, propsInfos)
 
     if(filter[0]){
         return(
-            <Error>Missing {filter[1]} property</Error>
+            filter[1]
         )
     }
 
@@ -1170,19 +1299,23 @@ function BtnAltPillFilled(props){
 
 
 function BtnAltPillStroked(props){
+    // -- component name
+    let componentName = 'BtnAltPillStroked'
+
     // Admitted props : true = needed, false = optional
     let propsInfos =  {
-                    'destination': true,
+                    'destination': false,
+                    'setTargetName': false,
                     'actionOnClick': true,
                     'children': false,
                     }
 
     // Props filter, check whether all the pros are correct
-    let filter = propsFilter(props, propsInfos)
+    let filter = propsFilter(componentName, props, propsInfos)
 
     if(filter[0]){
         return(
-            <Error>Missing {filter[1]} property</Error>
+            filter[1]
         )
     }
 
@@ -1198,19 +1331,23 @@ function BtnAltPillStroked(props){
 
 
 function BtnError(props){
+    // -- component name
+    let componentName = 'BtnError'
+
     // Admitted props : true = needed, false = optional
     let propsInfos =  {
-                    'destination': true,
+                    'destination': false,
+                    'setTargetName': false,
                     'actionOnClick': true,
                     'children': false,
                     }
 
     // Props filter, check whether all the pros are correct
-    let filter = propsFilter(props, propsInfos)
+    let filter = propsFilter(componentName, props, propsInfos)
 
     if(filter[0]){
         return(
-            <Error>Missing {filter[1]} property</Error>
+            filter[1]
         )
     }
 
@@ -1224,19 +1361,23 @@ function BtnError(props){
 }
 
 function BtnSuccess(props){
+    // -- component name
+    let componentName = 'BtnSuccess'
+
     // Admitted props : true = needed, false = optional
     let propsInfos =  {
-                    'destination': true,
+                    'destination': false,
+                    'setTargetName': false,
                     'actionOnClick': true,
                     'children': false,
                     }
 
     // Props filter, check whether all the pros are correct
-    let filter = propsFilter(props, propsInfos)
+    let filter = propsFilter(componentName, props, propsInfos)
 
     if(filter[0]){
         return(
-            <Error>Missing {filter[1]} property</Error>
+            filter[1]
         )
     }
 
@@ -1256,19 +1397,23 @@ function BtnSuccess(props){
 ------------------------------------------------------------------*/
 
 function A(props){
+    // -- component name
+    let componentName = 'A'
+
     // Admitted props : true = needed, false = optional
     let propsInfos =  {
                     'destination': false,
+                    'setTargetName': false,
                     'href': false,
                     'children': false,
                     }
                 
     // Props filter, check whether all the pros are correct
-    let filter = propsFilter(props, propsInfos)
+    let filter = propsFilter(componentName, props, propsInfos)
 
     if(filter[0]){
         return(
-            <Error>Missing {filter[1]} property</Error>
+            filter[1]
         )
     }
 
@@ -1336,6 +1481,8 @@ class InputTextMovingLabel extends Component {
     }
 
     render(){
+        // -- component name
+        let componentName = 'InputTextMovingLabel'
         
         // Admitted props : true = needed, false = optional
         let propsInfos =  {
@@ -1343,11 +1490,11 @@ class InputTextMovingLabel extends Component {
                         }
 
         // Props filter, check whether all the pros are correct
-        let filter = propsFilter(this.props, propsInfos)
+        let filter = propsFilter(componentName, this.props, propsInfos)
 
         if(filter[0]){
             return(
-                <Error>Missing {filter[1]} property</Error>
+                filter[1]
             )
         }
 
@@ -1432,6 +1579,9 @@ class InputTextMovingPlaceholder extends Component {
     }
 
     render(){
+        // -- component name
+        let componentName = 'InputTextMovingPlaceholder'
+
         // Admitted props : true = needed, false = optional
         let propsInfos =  {
                         'label': true,
@@ -1439,11 +1589,11 @@ class InputTextMovingPlaceholder extends Component {
                         }
 
         // Props filter, check whether all the pros are correct
-        let filter = propsFilter(this.props, propsInfos)
+        let filter = propsFilter(componentName, this.props, propsInfos)
 
         if(filter[0]){
             return(
-                <Error>Missing {filter[1]} property</Error>
+                filter[1]
             )
         }
 
@@ -1490,17 +1640,20 @@ class InputTextMovingPlaceholder extends Component {
  * 
  */
 function InputText(props){
+    // -- component name
+    let componentName = 'InputText'
+
     // Admitted props : true = needed, false = optional
     let propsInfos =  {
                     'label': true
                     }
     
     // Props filter, check whether all the pros are correct
-    let filter = propsFilter(props, propsInfos)
+    let filter = propsFilter(componentName, props, propsInfos)
 
     if(filter[0]){
         return(
-            <Error>Missing {filter[1]} property</Error>
+            filter[1]
         )
     }
 
@@ -1527,40 +1680,85 @@ function InputText(props){
 ------------------------------------------------------------------*/
 
 function Markdown(props){
+    // -- component name
+    let componentName = 'Markdown'
+
     // Admitted props : true = needed, false = optional
     let propsInfos =  {
+                    'lang': false,
                     'code': true
                     }
 
     // Props filter, check whether all the pros are correct
-    let filter = propsFilter(props, propsInfos)
+    let filter = propsFilter(componentName, props, propsInfos)
 
     if(filter[0]){
         return(
-            <Error>Missing {filter[1]} property</Error>
+            filter[1]
         )
     }
 
+    let language = !props.lang ? 'html' : props.lang
+
+
     return(
         <div className="my-4">
-            <pre><code className="language-html">{ props.code }</code></pre>
+            <pre><code className={"language-"+language}>{ props.code }</code></pre>
         </div>
     )
 }
 
-function Doc(props){
+function InlineCode(props){
+    // -- component name
+    let componentName = 'InlineCode'
+
     // Admitted props : true = needed, false = optional
     let propsInfos =  {
+                    'code': true,
+                    'lang':false
+                    }
+
+    // Props filter, check whether all the pros are correct
+    let filter = propsFilter(componentName, props, propsInfos)
+
+    if(filter[0]){
+        return(
+            filter[1]
+        )
+    }
+
+    let language = !props.lang ? 'html' : props.lang
+
+    return(
+        <div className="my-2">
+            <code className={"invert text-sm language-"+language+" bg-opacity-0"}>{ props.code }</code>   
+        </div>
+        
+    )
+}
+
+function Doc(props){
+    // -- component name
+    let componentName = 'Doc'
+
+    // Admitted props : true = needed, false = optional
+    let propsInfos =  {
+                    'optional':false,
                     'keyword': true,
                     'type': false,
                     'children': false
                     }
-
+                
+    let optional = props.optional ? <span className="font-mono mx-1 text-blue-700 text-xs font-semibold"><i>Optional</i></span> : ''
     return(
-        <div className="my-2">
-            <span className="font-mono text-brandColor-500 font-medium"><i>{props.keyword}</i></span>
-            <span className="mx-1 font-mono text-gray-600 text-sm">({props.type})</span>:
-            <span>{props.children}</span>
+        <div className="my-4 flex">
+            <div className="w-1/4 border-r-2 border-gray-300 mr-2">
+                <div className="font-mono text-brandColor-500 font-medium"><i>{props.keyword}</i></div>
+                <div className="font-mono text-gray-600 text-sm">({props.type})</div>
+                {optional} 
+            </div>
+            
+            <div className="w-3/4 px-2"> {props.children}</div>
         </div>
     )
 }
@@ -1572,6 +1770,9 @@ function Doc(props){
 ------------------------------------------------------------------*/
 
 function Hr(props){
+    // -- component name
+    let componentName = 'Hr'
+
     // Admitted props : true = needed, false = optional
     let propsInfos =  {}
     return(
@@ -1589,6 +1790,8 @@ export {
     Header,
     HeaderTitleFull,
     Nav,
+    SubNav,
+    ItemSubNav,
     Template,
     AsideLeft,
     ContentRight,
@@ -1616,6 +1819,7 @@ export {
     InputTextMovingPlaceholder,
     Markdown,
     Doc,
+    InlineCode,
     Card,
     CardImageLeft,
     CardImageRight,

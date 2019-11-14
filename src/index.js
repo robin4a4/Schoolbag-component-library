@@ -8,6 +8,8 @@ import {Hr,
         Header,
         HeaderTitleFull,
         Nav,
+        SubNav,
+        ItemSubNav,
         Template,
         AsideLeft,
         ContentRight,
@@ -35,6 +37,7 @@ import {Hr,
         InputTextMovingPlaceholder,
         Markdown,
         Doc,
+        InlineCode,
         Card,
         CardImageLeft,
         CardImageRight,
@@ -56,38 +59,33 @@ class App extends Component {
         super(props)
         // states definition
         this.state = {
-            page: "Schoolbag components library",
-            isPopupVisible: true
+            popups: {'popup1' : false},
+            navSlider: {'slider1' : true,
+                        'slider2' : false,
+                        'slider3' : false,
+                        'slider4' : false,
+                        'slider5' : false},
         };
 
         // binding of functions
-        this.hideOnClick       = this.hideOnClick.bind(this)
-        this.showOnClick       = this.showOnClick.bind(this)
-        this.actionPopup         = this.actionPopup.bind(this)
+        this.actionToogle     = this.actionToogle.bind(this)
+        this.changeContent    = this.changeContent.bind(this)
 
 
     }
 
-    hideOnClick(data){
+    actionToogle(element){
+            this.setState((currentState) => ({
+                popups: {[element] : !currentState.popups[element]}
+            }));
+    }
+  
+    changeContent(wrapper, contentToShow){
+        // set contentToShow to true, the rest will desapear
         this.setState({
-            page: data
+            [wrapper]: {[contentToShow] : true}
         });
     }
-
-    showOnClick(data){
-            this.setState({
-                page: data
-            });
-    }
-
-    actionPopup(){
-            this.setState((currentState) => ({
-                isPopupVisible: !currentState.isPopupVisible
-            }));
-
-        }
-  
-
 
   render() {
 
@@ -138,23 +136,131 @@ class App extends Component {
                 <section className="w-5/6 mx-auto">
 
                     <H1>Actions</H1>
+
+                    <H4>Sub nav</H4>
+                    <Card>
+                        <SubNav>
+                            <ItemSubNav actionOnClick={()=>this.changeContent('navSlider', 'slider1')}>Card xs</ItemSubNav>
+                            <ItemSubNav actionOnClick={()=>this.changeContent('navSlider', 'slider2')}>Card sm</ItemSubNav>
+                            <ItemSubNav actionOnClick={()=>this.changeContent('navSlider', 'slider3')}>Card md</ItemSubNav>
+                            <ItemSubNav actionOnClick={()=>this.changeContent('navSlider', 'slider4')}>Card lg</ItemSubNav>
+                            <ItemSubNav actionOnClick={()=>this.changeContent('navSlider', 'slider5')}>Card xl</ItemSubNav>
+                        </SubNav>
+
+                        <Slider name="slider1" visible={this.state.navSlider['slider1']}>
+                            <CardImageFull size="xs" image="simone-hutsch-ZQprWtq4ZJw-unsplash_resultat.jpg" description="Lorem ipsum desei aezl" title="Test action" setTargetName="simone"/>
+                            <CardImageFull size="xs" image="alexander-tsang-k5kaWuxelPU-unsplash_resultat.jpg" description="Lorem ipsum desei aezl" title="Test action" setTargetName="simone"/>
+                            <CardImageFull size="xs" image="mads-schmidt-rasmussen-xfngap_DToE-unsplash_resultat.jpg" description="Lorem ipsum desei aezl" title="Test action" setTargetName="simone"/>
+                            <CardImageFull size="xs" image="mitchell-luo-bFebN-p_go8-unsplash_resultat.jpg" description="Lorem ipsum desei aezl" title="Test action" setTargetName="simone"/>
+                        </Slider>
+
+                        <Slider name="slider2" visible={this.state.navSlider['slider2']}>
+                            <CardImageFull size="sm" image="victor-qm9pHqVt7KA-unsplash_resultat.jpg" description="Lorem ipsum desei aezl" title="Test action" setTargetName="simone"/>
+                            <CardImageFull size="sm" image="alexander-tsang-k5kaWuxelPU-unsplash_resultat.jpg" description="Lorem ipsum desei aezl" title="Test action" setTargetName="simone"/>
+                            <CardImageFull size="sm" image="will-turner-839rC40c-F8-unsplash_resultat.jpg" description="Lorem ipsum desei aezl" title="Test action" setTargetName="simone"/>
+
+                        </Slider>
+                        <Slider name="slider3" visible={this.state.navSlider['slider3']}>
+                            <CardImageFull size="md" image="will-turner-839rC40c-F8-unsplash_resultat.jpg" description="Lorem ipsum desei aezl" title="Test action" setTargetName="simone"/>
+                            <CardImageFull size="md" image="victor-qm9pHqVt7KA-unsplash_resultat.jpg" description="Lorem ipsum desei aezl" title="Test action" setTargetName="simone"/>
+
+                        </Slider>
+                        <Slider name="slider4" visible={this.state.navSlider['slider4']}>
+                            <CardImageFull size="lg" image="will-turner-839rC40c-F8-unsplash_resultat.jpg" description="Lorem ipsum desei aezl" title="Test action" setTargetName="simone"/>
+                            <CardImageFull size="lg" image="victor-qm9pHqVt7KA-unsplash_resultat.jpg" description="Lorem ipsum desei aezl" title="Test action" setTargetName="simone"/>
+
+                        </Slider>
+                        <Slider name="slider5" visible={this.state.navSlider['slider5']}>
+                            <CardImageFull size="xl" image="will-turner-839rC40c-F8-unsplash_resultat.jpg" description="Lorem ipsum desei aezl" title="Test action" setTargetName="simone"/>
+                            <CardImageFull size="xl" image="victor-qm9pHqVt7KA-unsplash_resultat.jpg" description="Lorem ipsum desei aezl" title="Test action" setTargetName="simone"/>
+
+                        </Slider>
+
+                        <div className="w-5/6 mx-auto my-10 ">
+                            <H4>Description</H4>
+                            Create a small navigation component. Here we switch between five Slider components but it can be every other DOM elements as long as you name them (see below).
+
+                            <H4>Connection</H4>
+                            Since it is an interactive element, you will have to create a new nav state :
+                            <InlineCode code="yournav: {'page1' : true, 'page2' : false}" lang="javascript"/>
+                            The boolean value gives the visibility of the page, here the first one is visible by default.
+                            By page we mean the DOM elements that will be impacted by the nav. It is not a tangible component (see examples).
+
+                            
+                            <H4>Attributs for SubNav</H4>
+                            No attributes.
+                            <H4>Attributs for ItemSubNav</H4>
+                            <Doc keyword="actionOnClick" type="function">
+                                Set the function to be called when the user click on the nav item. 
+                                The library have this function set to open a page : <InlineCode code="()=>this.changeContent('yournav', 'page1')" lang="javascript"/>
+               
+                                The first argument is the name of your nav defined as a state, the seconde argument is the page you want to open.
+                            </Doc>
+
+                            <H4>Attributs for the components below</H4>
+                            In order to make your elements behave like pages, you have to give them a name and a visibile attribut.
+
+                            <Doc keyword="name" type="text">
+                                Set the name of your page component. 
+                            </Doc>
+                            <Doc keyword="visible" type="boleean">
+                                Set the visibility of your page. It needs to be managed by your nav state visibility : 
+                                <InlineCode code="visible={this.state.yournav['page1']}" lang="javascript"/>
+                            </Doc>
+   
+                            <H4>Component code</H4>
+                            <Markdown code="<Popup visible={this.state.popups['popup1']} close={()=>this.actionToogle('popup1')}>Your content</Popup>" lang="javascript"/>
+
+                        </div>
+                        
+                    </Card>
+
                     <H4>Popup</H4>
                     <Card>
-                        <div className="m-4">
-                                <CardImageFull image="simone-hutsch-ZQprWtq4ZJw-unsplash_resultat.jpg" description="Lorem ipsum desei aezl" title="Test action" setTargetName="simone"/>
-                                <div className="flex">
-                                    <BtnSuccess actionOnClick={this.actionPopup} destination="">Show</BtnSuccess>
-                                    
-                                </div>
+ 
+                        <div className="w-5/6 mx-auto my-10 ">
+                            <BtnSuccess actionOnClick={()=>this.actionToogle('popup1')} destination="">Show popup</BtnSuccess>
+
+                            <H4>Description</H4>
+                            Create a popup element with your content inside that can be toggled on click.
+       
+                            <H4>Connection</H4>
+                            Since it is an interactive element, you will have to create a new popup line in the state object popups:  
+                            <InlineCode code="{'yourpopupsname' : false, 'otherpopup' : false}" lang="javascript"/> 
+                            The boolean value gives the visibility of the popup.
+                            <H4>Attributs</H4>
+                            <Doc keyword="visible" type="boolean">
+                                Define the visibility of the popup element. False is hidden, True is visible.
+                            </Doc>
+                            <Doc keyword="close" type="function">
+                                Set the function to be called when the user click on the close icon. 
+                                The library have this function set to toggle elements : <InlineCode code="()=>this.actionToogle('yourpopupsname')" lang="javascript"/>
+                                
+                            </Doc>
+                            <Doc keyword="type" type="text">
+                                Set the format for your popup. <br></br>
+                                Options :
+                                <li>dark <span className="font-mono mx-1 text-blue-700 text-xs font-semibold"><i>Default</i></span> : dark background that takes the entire container.</li>
+                                <li>light : white background that takes the entire container.</li>
+                                <li>full-dark : fixed dark background that takes the entire viewport.</li>
+                                <li>full-light : fixed white background that takes the entire viewport.</li>
+                                
+                                
+                            </Doc>
+   
+                            <H4>Component code</H4>
+                            <Markdown code="<Popup visible={this.state.popups['popup1']} close={()=>this.actionToogle('popup1')}>Your content</Popup>" lang="javascript"/>
+
                         </div>
-                        <Popup visible={this.state.isPopupVisible} close={this.actionPopup}>
+              
+
+                        <Popup visible={this.state.popups['popup1']} close={()=>this.actionToogle('popup1')}>
                             <CardImageFull image="simone-hutsch-ZQprWtq4ZJw-unsplash_resultat.jpg" description="Lorem ipsum desei aezl" title="Test action" setTargetName="simone"/>
                             <div className="flex">
-                                <BtnAltFilled actionOnClick="" destination="">Button</BtnAltFilled>
-  
-
+                                <BtnAltFilled actionOnClick={()=>this.actionToogle('popup1')}>Button</BtnAltFilled>
                             </div>
                         </Popup>
+                        
                         
         
                     </Card>
@@ -181,7 +287,7 @@ class App extends Component {
                             <Doc keyword="title" type="text">
                                 Insert your title.
                             </Doc>
-                            <H4>The code here</H4>
+                            <H4>Component code</H4>
                             <Markdown code="<Header logo='logoipsum2.png' title='Lorem'></Header>"/>
 
                         </div>
@@ -205,7 +311,7 @@ class App extends Component {
                             <Doc keyword="title" type="text">
                                 Insert your title.
                             </Doc>
-                            <H4>The code here</H4>
+                            <H4>Component code</H4>
                             <Markdown code="<Header title='Lorem'></Header>"/>
                         </div>
 
@@ -227,7 +333,7 @@ class App extends Component {
                             <Doc keyword="title" type="text">
                                 Insert your title.
                             </Doc>
-                            <H4>The code here</H4>
+                            <H4>Component code</H4>
                             <Markdown code="<Header></Header>"/>
                         </div>
                     </Card>
@@ -260,15 +366,15 @@ class App extends Component {
                                 <li><i>xl</i></li>
                                 <li><i>full: the template will occupy the entire viewport (just like this website).</i></li>
                             </Doc>
-                            <H4>The code here</H4>
+                            <H4>Component code</H4>
                             <Markdown code="<Template size='lg'><AsideLeft></AsideLeft><ContentRight></ContentRight></Template>
                                             "/>
                         </ContentRight>
                     </Template>
 
                     <H4 anchor="5">Template with header</H4>
-                    <Card>
-                        <Header title="Lorem"></Header>
+    
+                        <Header title="Lorem"/>
                         <Template size="sm">
                             <AsideLeft>
                                 <ItemNav href="">Sub menu 1</ItemNav>
@@ -280,13 +386,13 @@ class App extends Component {
                                 Create a section with a header and a template.
                                 The only thing to note is that you can't have a fixed header with a full screen template. You have to let your header be normal.
 
-                                <H4>The code here</H4>
+                                <H4>Component code</H4>
 
-                                <Markdown code="<Header><Template size='sm'><AsideLeft>Your menu</AsideLeft><ContentRight>Your content</ContentRight></Template></Header>
+                                <Markdown code="<Header title='Lorem'/><Template size='sm'><AsideLeft>Your menu</AsideLeft><ContentRight>Your content</ContentRight></Template></Header>
                                             "/>
                             </ContentRight>
                     </Template>
-                    </Card>
+         
 
                     <H1>Buttons</H1>
                     <H4 anchor="6">Main buttons</H4>
@@ -431,7 +537,7 @@ class App extends Component {
                             Write the image you want to display.
                         </Doc>
 
-                        <H4>The code here</H4>
+                        <H4>Component code</H4>
                         <Markdown code="<CardImageLeft image='simone-hutsch-ZQprWtq4ZJw-unsplash_resultat.jpg'><H2>Card left image</H2><Hr/>Your content</CardImageLeft>"/>
 
                     </CardImageLeft>
@@ -474,7 +580,7 @@ class App extends Component {
                                 Set the image of your card.
                             </Doc>
 
-                            <H4>The code here</H4>
+                            <H4>Component code</H4>
                             <Markdown code="<CardImageFull title='Card title' description='Labore laboris eiusmod cillum elit sunt enim commodo dolor id anim commodo exercitation.' image='simone-hutsch-ZQprWtq4ZJw-unsplash_resultat.jpg'/>"/>
                         </div>
                         
@@ -503,7 +609,7 @@ class App extends Component {
                                 Set the image of your card.
                             </Doc>
 
-                            <H4>The code here</H4>
+                            <H4>Component code</H4>
                             <Markdown code="<CardImageTop title='Card title' description='Labore laboris eiusmod cillum elit sunt enim commodo dolor id anim commodo exercitation.' image='simone-hutsch-ZQprWtq4ZJw-unsplash_resultat.jpg'/>"/>
                         </div>
                         
@@ -516,7 +622,7 @@ class App extends Component {
                     <H1>Sliders</H1>
                     <H4 anchor="13">Simple slider</H4>
 
-                    <Slider>
+                    <Slider visible="true">
 
                         <CardImageFull title="Card title" description="Labore laboris eiusmod cillum elit sunt enim commodo dolor id anim commodo exercitation." image="alexander-tsang-k5kaWuxelPU-unsplash_resultat.jpg"/>
                         
@@ -528,7 +634,7 @@ class App extends Component {
 
                     </Slider>
 
-                    <Slider>
+                    <Slider visible="true">
 
                         <CardImageTop title="Card title" description="Labore laboris eiusmod cillum elit sunt enim commodo dolor id anim commodo exercitation." image="alexander-tsang-k5kaWuxelPU-unsplash_resultat.jpg"/>
                         
@@ -545,7 +651,7 @@ class App extends Component {
                             <H4>Description</H4>
                             Create a slider of any element
 
-                            <H4>The code here</H4>
+                            <H4>Component code</H4>
 
                             <Markdown code="<Slider>Your elements here</Slider>"/>
                         </div>
@@ -553,7 +659,7 @@ class App extends Component {
 
                     <H4 anchor="14">Slider with complex html</H4>
 
-                    <Slider>
+                    <Slider visible="true">
 
                         <CardImageLeft size="md" image="mark-boss-18jr5cDfqAw-unsplash_resultat.jpg">
                             <H2>Card exemple</H2>

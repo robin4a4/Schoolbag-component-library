@@ -39,6 +39,7 @@ module.exports = {
         },
         colors: {
             opacity: {
+                0: 'rgba(255,255,255,0)',
                 0.1: 'rgba(255,255,255,0.1)',
                 0.2: 'rgba(255,255,255,0.2)',
                 0.3: 'rgba(255,255,255,0.3)',
@@ -81,6 +82,7 @@ module.exports = {
     }
   },
   variants: {
-    opacity: ['responsive', 'hover']
+    opacity: ['responsive', 'hover', 'active'],
+    backgroundColor: ['responsive', 'hover', 'focus', 'active', 'first'],
   }
 }
