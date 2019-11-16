@@ -133,8 +133,8 @@ class App extends Component {
             </AsideLeft>
 
             <ContentRight>
-                <section className="w-5/6 mx-auto">
-
+                <section className="w-full">
+               
                     <H1>Actions</H1>
 
                     <H4>Sub nav</H4>
@@ -149,7 +149,7 @@ class App extends Component {
 
                         <Slider name="slider1" visible={this.state.navSlider['slider1']}>
                             <CardImageFull size="xs" image="simone-hutsch-ZQprWtq4ZJw-unsplash_resultat.jpg" description="Lorem ipsum desei aezl" title="Test action" setTargetName="simone"/>
-                            <CardImageFull size="xs" image="alexander-tsang-k5kaWuxelPU-unsplash_resultat.jpg" description="Lorem ipsum desei aezl" title="Test action" setTargetName="simone"/>
+                            <CardImageFull size="xs" image="mitchell-luo-bFebN-p_go8-unsplash_resultat.jpg" description="Lorem ipsum desei aezl" title="Test action" setTargetName="simone"/>
                             <CardImageFull size="xs" image="mads-schmidt-rasmussen-xfngap_DToE-unsplash_resultat.jpg" description="Lorem ipsum desei aezl" title="Test action" setTargetName="simone"/>
                             <CardImageFull size="xs" image="mitchell-luo-bFebN-p_go8-unsplash_resultat.jpg" description="Lorem ipsum desei aezl" title="Test action" setTargetName="simone"/>
                         </Slider>

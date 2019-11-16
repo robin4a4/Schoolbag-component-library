@@ -4,6 +4,9 @@ A set of React.js components using Tailwind.css that make prototyping small apps
 ## Install
 
 Run ``git clone https://github.com/robin4a4/Schoolbag-component-library.git`` in your folder.
+
+If you don't have nodejs, install it on your machine.
+
 Then you can run 
 
 ``npm start``
@@ -25,42 +28,72 @@ Some features, such as animations, are not supported by Tailwind yet, so you can
 
 You can also add some specifications to the tailwind library in the extend property of the array in *tailwind.config.js*. 
 
+### Actions
+
+#### Hide/show
+You can interact with some components with Actions. There are two parts : the actionner and the content. In order to create an Action, you have to set a visibility state for your content, true for visible and false for hidden.
+
+Ex with a nav: 
+```
+yournav: {'page1' : true, 'page2' : false}
+```
+
+Then you have to set an attribut ***visible*** to each of the items of your content.
+
+Ex with a nav:
+```
+visible={this.state.yournav['page1']}
+```
+
+Finally you have to set an attribut ***actionOnClick*** to each of the items of your content. The function take 2 arguments:
+- your actionner name
+- the item of the content you want to show on click
+
+Ex with a nav:
+```
+actionOnClick={()=>this.changeContent('yournav', 'page2')}
+```
+
+
+
 ### Components
 Here is the list of the components, more will be added soon.
 
-#### Headers
+
+#### List of components
+##### Headers
 - Header
 - HeaderTitleFull
 
-#### Navs
+##### Navs
 - Nav
 - ItemNav
 - SubNav
 - ItemSubNav
 
-#### Templates
+##### Templates
 - Template
 - AsideLeft
 - ContentRight
 - AsideRight
 - ContentLeft
 
-#### Cards
+##### Cards
 - Card
 - CardImageLeft
 - CardImageRight
 - CardImageFull
 - CardImageTop
 
-#### Popups
+##### Popups
 - Popup
 
-#### Slider
+##### Slider
 - Slider
 
-#### Separator
+##### Separator
 - Hr
-#### Buttons
+##### Buttons
 - BtnMainFilled
 - BtnMainStroked
 - BtnMainPillFilled
@@ -72,7 +105,7 @@ Here is the list of the components, more will be added soon.
 - BtnSucess
 - BtnError
 
-#### Titles
+##### Titles
 - H1
 - H2
 - H3
@@ -80,17 +113,17 @@ Here is the list of the components, more will be added soon.
 - H5
 - H6
 
-#### Inputs
+##### Inputs
 - InputText
 - InputTextMovingLabel
 - InputTextMovingPlaceholder
 
-#### Doc
+##### Doc
 - Markdown
 - Doc
 - InlineCode
 
-#### Alerts
+##### Alerts
 - Error
 - Success
 - Info

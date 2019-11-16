@@ -46,6 +46,16 @@
     }
 }
 
+@keyframes translateRight {
+    from {opacity: 1;}
+    to {
+        opacity:0;
+        transform: translateX(100rem);
+
+    }
+}
+
+
 .animateIn{
     animation: fondueIn 0.3s ease 0s both;
 }
@@ -83,6 +93,11 @@
     animation: -rotateBack 0.3s ease 0s both;
 }
 
+.translateRight{
+    animation: translateRight 0.3s ease 0s both;
+
+}
+
 /* Gradient 
    ========================================================================== */
 
@@ -102,6 +117,19 @@
 .invert{
     filter: invert(1);
 }
+
+/* Position 
+   ========================================================================== */
+
+.right-10{
+    right: 2.5rem;
+}
+
+.left-10{
+    left:2.5rem
+}
+
+
 /* Slider 
    ========================================================================== */
 

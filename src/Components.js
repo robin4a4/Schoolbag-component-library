@@ -38,7 +38,7 @@ function propsFilter(component, props, propsInfos){
         if(!(propSaved in props)){
             if(propsInfos[propSaved]===true){
                 isError = true;
-                missingProps.push(<Error>Missing <span className="bg-red-200 p-1 rounded">{propSaved}</span> property in <span className="bg-red-100 p-1 mx-1 rounded-full">{component}</span></Error>);
+                missingProps.push(<Error>Missing <span className="bg-red-200 p-1 rounded">{propSaved}</span> property in <span className="border-2 border-red-100 p-1 px-2 rounded-full">{component}</span></Error>);
             }
       
         }
@@ -104,7 +104,7 @@ function Info(props){
 
 function Alert(props){
     return(
-        <div className="w-full overflow-hidden bg-yellow-200 text-yellow-800 rounded border-2 border-yellow-300">
+        <div className="w-full relative bg-yellow-200 text-yellow-800 rounded border-2 border-yellow-300">
             <div className="m-2">{props.children}</div>
         </div>
     )
@@ -231,10 +231,7 @@ class Nav extends Component {
             )
         }
 
-        var position = this.props.position;
-        if(this.props.position===undefined){
-            position = "right";
-        }
+
         
         /*---------------------------------------------------------------
         gestion du responsive 
@@ -254,7 +251,7 @@ class Nav extends Component {
             launchAnimationMenu   = "animateOut"
         }
 
-        var responsiveContentClasses = launchAnimationMenu + "  w-1/3 top-0 mt-"+headerHeight+" "+position+"-0 bottom-0 bg-gray-200 flex-none border-t-2 border-gray-300 overflow-y-scroll overflow-x-hidden z-20 "+ menuResponsive
+        var responsiveContentClasses = launchAnimationMenu + " top-0 mt-20 right-0 left-0 bottom-0 w-full bg-gray-200 flex-none border-t-2 border-gray-300 overflow-y-scroll overflow-x-hidden z-20 "+ menuResponsive
 
 
         /*------------------------------------------------------------------------
@@ -525,7 +522,7 @@ class AsideLeft extends Component {
                     </div>
                 </section>
                 
-                <section className={launchAnimationMenu + " md:block absolute block top-0 mt-12 md:mt-0 z-20 md:z-0 bottom-0 left-0 w-3/5 md:w-1/4 border-r-2 border-gray-300 h-full p-4 overflow-hidden overflow-y-scroll bg-gray-200 " + menuResponsive}>
+                <section className={launchAnimationMenu + " md:block absolute block top-0 mt-12 md:mt-0 z-20 md:z-0 bottom-0 left-0 w-3/5 md:w-1/5 border-r-2 border-gray-300 h-full p-4 overflow-hidden overflow-y-scroll bg-gray-200 " + menuResponsive}>
                     <nav>
                         {this.props.children}
                     </nav>
@@ -575,7 +572,7 @@ function ContentRight(props){
 
     return(
 
-        <section className="w-full absolute block top-0 bottom-0 right-0 md:w-3/4 mt-7 md:mt-0  h-full p-4 overflow-hidden overflow-y-scroll z-10">
+        <section className="w-full absolute block top-0 bottom-0 right-0 md:w-4/5 mt-7 md:mt-0  h-full p-4 overflow-hidden overflow-y-scroll z-10">
 
                 {props.children}
 
@@ -1751,14 +1748,14 @@ function Doc(props){
                 
     let optional = props.optional ? <span className="font-mono mx-1 text-blue-700 text-xs font-semibold"><i>Optional</i></span> : ''
     return(
-        <div className="my-4 flex">
-            <div className="w-1/4 border-r-2 border-gray-300 mr-2">
+        <div className="my-4 md:flex border-gray-200 border-b-2 ">
+            <div className="w-1/4 mt-2 md:mt-0 md:mr-2 md:border-r-2 border-none border-gray-200">
                 <div className="font-mono text-brandColor-500 font-medium"><i>{props.keyword}</i></div>
                 <div className="font-mono text-gray-600 text-sm">({props.type})</div>
                 {optional} 
             </div>
             
-            <div className="w-3/4 px-2"> {props.children}</div>
+            <div className="md:w-3/4 md:px-4"> {props.children}</div>
         </div>
     )
 }
