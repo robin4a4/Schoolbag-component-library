@@ -1,5 +1,5 @@
 # Schoolbag-component-library BETA
-A set of React.js components using Tailwind.css that make prototyping small apps even faster.
+A set of React.js components using Tailwind.css that makes prototyping small apps even faster.
 
 ## Install
 
