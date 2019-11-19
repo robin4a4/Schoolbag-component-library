@@ -5,13 +5,15 @@ A set of React.js components using Tailwind.css that makes prototyping small app
 
 Run ``git clone https://github.com/robin4a4/Schoolbag-component-library.git`` in your folder.
 
-If you don't have nodejs, install it on your machine.
+If you don't have nodejs, install it on your machine. You also have to install tailwind.css.
 
 Then you can run 
 
 ``npm start``
 
-It will open a browser window on url *localhost:3000*.
+It will open a browser window on url *localhost:3000* with de documentation. 
+
+You can also check the demo at [design.schoolbag.fr](https://design.schoolbag.fr)
 
 ## Usage
 ### Structure
@@ -91,6 +93,9 @@ Here is the list of the components, more will be added soon.
 ##### Slider
 - Slider
 
+##### Slideshow
+- Slideshow
+
 ##### Separator
 - Hr
 ##### Buttons
@@ -117,6 +122,9 @@ Here is the list of the components, more will be added soon.
 - InputText
 - InputTextMovingLabel
 - InputTextMovingPlaceholder
+
+##### Notifications
+- Notification
 
 ##### Doc
 - Markdown
