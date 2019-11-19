@@ -149,14 +149,18 @@ class App extends Component {
 
                 <H6>Slideshow</H6>
                 <ItemNav href="#16">Slideshow</ItemNav>
-
+                <Hr/>
                 <H6>Actions</H6>
                 <ItemNav href="#17">Push notification<span className="text-yellow-600 font-semibold">(beta)</span></ItemNav>
                 <ItemNav href="#18">Sub navigation</ItemNav>
                 <ItemNav href="#19">Popup</ItemNav>
-
-
                 <Hr/>
+
+                <H6>Alerts</H6>
+                <ItemNav href="#20">Success</ItemNav>
+                <ItemNav href="#21">Error</ItemNav>
+                <ItemNav href="#22">Info</ItemNav>
+                <ItemNav href="#23">Warning</ItemNav>
             </AsideLeft>
             
             <ContentRight>
@@ -851,16 +855,19 @@ class App extends Component {
 
                     <H1>Alerts</H1>
                     You can inform the user with colored alerts.
-                    <H4>Success</H4>
+                    <H4 anchor="20">Success</H4>
                     <Success>Task failed successfuly.</Success>
                     <Markdown code="<Success>Task failed successfuly.</Success>"/>
-                    <H4>Error</H4>
+
+                    <H4 anchor="21">Error</H4>
                     <Error>Task failed.</Error>
                     <Markdown code="<Error>Task failed.</Error>"/>
-                    <H4>Info</H4>
+
+                    <H4 anchor="22">Info</H4>
                     <Info>Information abotu a current process.</Info>
                     <Markdown code="<Info>Information abotu a current process.</Info>"/>
-                    <H4>Warning</H4>
+
+                    <H4 anchor="23">Warning</H4>
                     <Warning>Warning about a current process.</Warning>
                     <Markdown code="<Warning>Warning about a current process.</Warning>"/>
 
