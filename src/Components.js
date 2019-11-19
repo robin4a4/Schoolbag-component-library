@@ -49,7 +49,7 @@ function propsFilter(component, props, propsInfos){
             if(!(prop in propsInfos)){
                 
                     isError = true;
-                    missingProps.push(<Alert>Unknown <span className="bg-yellow-300 p-1 rounded">{prop}</span> property in <span className="border-2 border-yellow-300 p-1 px-2 rounded-full">{component}</span></Alert>);
+                    missingProps.push(<Warning>Unknown <span className="bg-yellow-300 p-1 rounded">{prop}</span> property in <span className="border-2 border-yellow-300 p-1 px-2 rounded-full">{component}</span></Warning>);
 
             }
         }
@@ -75,18 +75,110 @@ function switchProps(choices, prop){
 /*---------------------------------------------------------------
 ------------------------------------------------------------------*/
 /*=================================================================
+                            Strucutre
+===================================================================*/
+
+function Flex(props){
+    // -- component name
+    let componentName = 'Flex'
+
+    // Admitted props : true = needed, false = optional
+    let propsInfos =  {
+                'children': false
+                }
+    
+    // Props filter, check whether all the pros are correct
+    let filter = propsFilter(componentName, props, propsInfos)
+
+    if(filter[0]){
+        return(
+            filter[1]
+        )
+    }
+
+    return(
+        <div className="md:flex mr-child">
+            {props.children}
+        </div>
+    )
+}
+
+
+function Content(props){
+    // -- component name
+    let componentName = 'Content'
+
+    // Admitted props : true = needed, false = optional
+    let propsInfos =  {
+                'width':false,
+                'children': false
+                }
+    
+    // Props filter, check whether all the pros are correct
+    let filter = propsFilter(componentName, props, propsInfos)
+
+    if(filter[0]){
+        return(
+            filter[1]
+        )
+    }
+    let width = props.width ? props.width : '5/6'
+    return(
+        <div className={'w-full mx-2 md:w-'+  width + ' md:mx-auto my-5 '}>
+            {props.children}
+        </div>
+    )
+}
+
+
+
+/*=================================================================
                             Alert
 ===================================================================*/
 
 function Error(props){
+    // -- component name
+    let componentName = 'Error'
+
+    // Admitted props : true = needed, false = optional
+    let propsInfos =  {
+                'children': false
+                }
+    
+    // Props filter, check whether all the pros are correct
+    let filter = propsFilter(componentName, props, propsInfos)
+
+    if(filter[0]){
+        return(
+            filter[1]
+        )
+    }
+
     return(
-        <div className="w-full relative bg-red-100 text-red-700 rounded border-2 border-red-200">
+        <div className="w-full relative bg-red-200 text-red-800 rounded border-2 border-red-300">
             <div className="m-2">{props.children}</div>
         </div>
     )
 }
 
 function Success(props){
+    // -- component name
+    let componentName = 'Success'
+
+    // Admitted props : true = needed, false = optional
+    let propsInfos =  {
+                'children': false
+                }
+    
+    // Props filter, check whether all the pros are correct
+    let filter = propsFilter(componentName, props, propsInfos)
+
+    if(filter[0]){
+        return(
+            filter[1]
+        )
+    }
+
     return(
         <div className="w-full bg-green-200 text-green-800 rounded border-2 border-green-300">
             <div className="m-2">{props.children}</div>
@@ -95,14 +187,48 @@ function Success(props){
 }
 
 function Info(props){
+    // -- component name
+    let componentName = 'Info'
+
+    // Admitted props : true = needed, false = optional
+    let propsInfos =  {
+                'children': false
+                }
+    
+    // Props filter, check whether all the pros are correct
+    let filter = propsFilter(componentName, props, propsInfos)
+
+    if(filter[0]){
+        return(
+            filter[1]
+        )
+    }
+
     return(
-        <div className="w-full bg-blue-100 text-blue-700 rounded border-2 border-blue-200">
+        <div className="w-full bg-blue-200 text-blue-800 rounded border-2 border-blue-300">
             <div className="m-2">{props.children}</div>
         </div>
     )
 }
 
-function Alert(props){
+function Warning(props){
+    // -- component name
+    let componentName = 'Warning'
+
+    // Admitted props : true = needed, false = optional
+    let propsInfos =  {
+                'children': false
+                }
+    
+    // Props filter, check whether all the pros are correct
+    let filter = propsFilter(componentName, props, propsInfos)
+
+    if(filter[0]){
+        return(
+            filter[1]
+        )
+    }
+
     return(
         <div className="w-full relative bg-yellow-200 text-yellow-800 rounded border-2 border-yellow-300">
             <div className="m-2">{props.children}</div>
@@ -314,7 +440,7 @@ function ItemNav(props){
     return(
 
         <a href={props.href}>
-            <div className="my-2 md:my-0 w-5/6 md:w-auto text-gray-800 mx-auto rounded hover:bg-gray-300 text-gray-800 p-3 text-sm">
+            <div className="my-2 md:my-0 w-5/6 md:w-auto text-gray-800 mx-auto rounded hover:bg-gray-300 text-gray-800 p-1 md:p-3 text-sm">
                 {props.children}
 
             </div>
@@ -341,7 +467,7 @@ function SubNav(props){
     // render
     return(
 
-        <nav className="flex w-full items-center p-1">
+        <nav className="flex no-wrap overflow-y-hidden overflow-x-scroll w-full items-center p-1 ">
             {props.children}
         </nav>
   )
@@ -511,7 +637,7 @@ class AsideLeft extends Component {
 
         return(
             <section>
-                <section className="relative flex w-full bg-gray-300 border-b-2 border-gray-400 items-center px-2 h-12 z-20 md:hidden">
+                <section className="relative flex w-full bg-gray-300 border-b-2 border-gray-400 items-center px-2 h-12 md:hidden">
                     <div onClick={this.handleClick} className={"block p-2 md:hidden flex-none cursor-pointer rounded hover:bg-gray-200 mr-2 " + launchAnimationBurger}>
                         <div className="burger-top border-t-2 border-gray-500 my-1 w-6"></div>
                         <div className="burger-middle border-t-2 border-gray-500 my-1 w-6"></div>
@@ -522,7 +648,7 @@ class AsideLeft extends Component {
                     </div>
                 </section>
                 
-                <section className={launchAnimationMenu + " md:block absolute block top-0 mt-12 md:mt-0 z-20 md:z-0 bottom-0 left-0 w-3/5 md:w-1/5 border-r-2 border-gray-300 h-full p-4 overflow-hidden overflow-y-scroll bg-gray-200 " + menuResponsive}>
+                <section className={launchAnimationMenu + " md:block absolute block top-0 mt-12 md:mt-0 z-20 md:z-0 bottom-0 left-0 w-4/5 md:w-1/5 border-r-2 border-gray-300 h-full p-4 overflow-hidden overflow-y-scroll bg-gray-200 pb-10 " + menuResponsive}>
                     <nav>
                         {this.props.children}
                     </nav>
@@ -572,7 +698,7 @@ function ContentRight(props){
 
     return(
 
-        <section className="w-full absolute block top-0 bottom-0 right-0 md:w-4/5 mt-7 md:mt-0  h-full p-4 overflow-hidden overflow-y-scroll z-10">
+        <section className="w-full absolute block top-0 bottom-0 right-0 md:w-4/5 mt-12 md:mt-0  h-full p-3 md:p-10 overflow-hidden overflow-y-scroll z-10">
 
                 {props.children}
 
@@ -657,13 +783,9 @@ function Popup(props){
 
 }
 
-/*---------------------------------------------------------------
-/*---------------------------------------------------------------
-
-                          Cards
-
-/*---------------------------------------------------------------
-------------------------------------------------------------------*/
+/*=================================================================
+                            CARDS
+===================================================================*/
 
 
 function Card(props){
@@ -672,11 +794,16 @@ function Card(props){
 
     // Admitted props : true = needed, false = optional
     let propsInfos =  {
+                    'draggable':false,
+                    'push': false,
                     'children': false
                     }
 
+    let push = props.push ? <div className="flex items-center justify-center font-semibold rounded-full px-1 h-6 min-w-6 text-white text-xs bg-red-600 absolute top-0 right-0 -mt-2 -mr-2">{props.push}</div> : ''
+
     return(
-        <div className="relative bg-gray-100 shadow-lg border-t-2 border-gray-200 rounded-lg w-full my-5 p-2 overflow-hidden ">
+        <div className="relative bg-gray-100 shadow-lg border-t-2 border-gray-200 rounded-lg w-full my-5 p-2 ">
+            {push}
             {props.children}
         </div>
     )
@@ -688,6 +815,7 @@ function CardImageLeft(props){
 
     // Admitted props : true = needed, false = optional
     let propsInfos =  {
+                    'draggable':false,
                     'size': false,
                     'image': true,
                     'children': false
@@ -737,6 +865,7 @@ function CardImageRight(props){
 
     // Admitted props : true = needed, false = optional
     let propsInfos =  {
+                    'draggable':false,
                     'size': false,
                     'image': true,
                     'children': false
@@ -785,11 +914,13 @@ function CardImageFull(props){
 
     // Admitted props : true = needed, false = optional
     let propsInfos =  {
+                    'draggable':false,
                     'size': false,
                     'setTargetName': false,
                     'image': true,
                     'title': true,
                     'description': true,
+                    'push': false
                     }
     
     // Props filter, check whether all the pros are correct
@@ -815,16 +946,22 @@ function CardImageFull(props){
     
     // if so we can continue
     const desc = props.description.substring(0, 40)+"...";
-    return(
-        <section style={{"background":"url("+process.env.PUBLIC_URL + '/img/unsplash/resized/'+props.image+")"}} className={cardSize + " CardImageFull relative bg-white shadow-lg rounded-lg overflow-hidden bg-cover bg-center cursor-pointer hover:shadow-xl flex-none mr-6"} >
 
-            <div className="absolute top-0 left-0 right-0 bottom-0 bg-darkGradient">
+    //-- if a push notification system is defined
+    
+    let push = props.push ? <div className="flex items-center justify-center font-semibold rounded-full px-1 h-6 min-w-6 text-white text-xs bg-red-600 absolute top-0 right-0 -mt-2 -mr-2">{props.push}</div> : ''
+
+    return(
+
+        <section style={{"background":"url("+process.env.PUBLIC_URL + '/img/unsplash/resized/'+props.image+")"}} className={cardSize + " CardImageFull relative bg-white shadow-lg rounded-lg  bg-cover bg-center cursor-pointer hover:shadow-xl flex-none mr-6"} >
+            <div className="absolute top-0 left-0 right-0 bottom-0 bg-b-darkGradient rounded-b-lg">
                 <div className="absolute bottom-0 mx-4 mb-4">
                     <div className="uppercase font-bold tracking-wider my-1 text-white text-xl">{props.title}</div>
                     <div className="my-1 text-white">{desc}</div>
                 </div>
             </div>
-
+            
+            {push}
         </section>
     )
 }
@@ -835,6 +972,7 @@ function CardImageTop(props){
 
     // Admitted props : true = needed, false = optional
     let propsInfos =  {
+                    'draggable':false,
                     'size': false,
                     'setTargetName': false,
                     'image': true,
@@ -843,21 +981,72 @@ function CardImageTop(props){
                     }
 
     const desc = props.description.substring(0, 60)+"...";
+
+    let push = props.push ? <div className="flex items-center justify-center font-semibold rounded-full px-1 h-6 min-w-6 text-white text-xs bg-red-600 absolute top-0 right-0 -mt-2 -mr-2">{props.push}</div> : ''
+
     return(
-        <section className="CardImageTop bg-white shadow-lg rounded-lg overflow-hidden w-70 h-90 cursor-pointer hover:shadow-xl flex-none" >
-            <img className="object-cover w-full h-56" src={process.env.PUBLIC_URL + '/img/unsplash/resized/'+props.image}/>
+        <section className="CardImageTop relative bg-white shadow-lg rounded-lg  w-70 h-90 cursor-pointer hover:shadow-xl flex-none" >
+            <img className="object-cover rounded-t-lg w-full h-56" src={process.env.PUBLIC_URL + '/img/unsplash/resized/'+props.image}/>
             <div className="w-full p-3">
                 <div className="uppercase font-bold tracking-wider my-1 text-gray-800 text-xl">{props.title}</div>
                 <div className="my-1 text-gray-600">{desc}</div>
             </div>
 
+            {push}
         </section>
     )
 }
 
-/*---------------------------------------------------------------
-                        Slider
-------------------------------------------------------------------*/
+/*=================================================================
+                        NOTIFICATIONS
+===================================================================*/
+
+
+
+function Notification(props){
+    // -- component name
+    let componentName = 'Notification'
+
+    // Admitted props : true = needed, false = optional
+    let propsInfos =  {
+                    'title': true,
+                    'message': true,
+                    'image': false,
+                    'visible': false,
+                    'fixed': false,
+                    'children': false
+                    }
+
+    let isFixed = props.fixed ? 'fixed' : 'absolute'
+    let visible = props.visible ? 'block' : 'hidden'
+
+    return(
+        <section className={"top-0 right-0 left-0 animateFromTop w-full opacity-0 "+ visible +" bg-t-grayGradient " + isFixed +" z-100 "}>
+            <section className={"rounded-lg bg-white shadow-lg flex justify-start mx-2 my-2 items-center p-3"} >
+                <div className="w-1/5 text-center md:w-auto md:mx-3">
+                    <img className="rounded-full w-10 h-10" src={process.env.PUBLIC_URL + '/img/unsplash/resized/'+props.image}/>
+                </div>
+                <div className="flex-none w-4/5 md:w-auto md:mx-3">
+                    <div className="text-xs font-semibold uppercase tracking-wider text-gray-600 py-1">{props.title}</div>
+                    <div className="text-xs text-gray-800">{props.message}</div>
+
+                </div>
+
+                
+                
+            </section>
+        </section>
+        
+    )
+}
+
+
+
+/*=================================================================
+                            SLIDER
+===================================================================*/
+
+
 
 function Slider(props){
     // -- component name
@@ -878,41 +1067,88 @@ function Slider(props){
                 {props.children}
                 <div className="h-1 w-10 flex-none"></div>
             </section>
-            <div className="absolute right-0 top-0 bottom-0 bg-whiteGradient-right w-20"></div>
+            <div className="absolute right-0 top-0 bottom-0 bg-whiteGradient-right w-10"></div>
         </section>
         
     )
 }
 
 
-/*---------------------------------------------------------------
-                        Diaporama
-------------------------------------------------------------------*/
+/*=================================================================
+                        SLIDESHOW
+===================================================================*/
+class Slideshow extends Component {
 
-function Diaporama(props){
-    return(
+    constructor(props) {
 
-        <section className="w-full flex items-center justify-between my-5">
-            <div className="cursor-pointer">
-                <img className="w-10 h-10" src={process.env.PUBLIC_URL + '/img/icons/arrow-l.png'}/>
-            </div>
-            <section className="w-5/6 bg-red-500 flex items-center justify-center" >
-                {props.children}
+        super(props)
+        // l'état par défaut de la page est home et il n'y a pas d'image sur la page home d'ou id, date et filename nuls
+        this.state = {
+            slideIndex: 0,
+            slidesNumber: this.props.children.length -1,
+            childrens: this.props.children 
+        };
+
+        this.changeSlides = this.changeSlides.bind(this)
+
+    }
+
+
+    // Next/previous controls
+    changeSlides(n) {
+        
+        if (this.state.slideIndex > this.state.slidesNumber) {
+            this.setState({
+                slideIndex: 0
+            });
+        }
+        else if (this.state.slideIndex < 0) {
+            this.setState({
+                slideIndex: this.state.slidesNumber
+            });
+        }
+        else if (this.state.slideIndex == 0 && n==-1) {
+            this.setState({
+                slideIndex: this.state.slidesNumber
+            });
+        }
+        else if (this.state.slideIndex == this.state.slidesNumber && n==1) {
+            this.setState({
+                slideIndex: 0
+            });
+        }
+        else{
+            this.setState((currentState) => ({
+                slideIndex: currentState.slideIndex+n, 
+            }));
+        }
+    }
+
+    render(){
+        return(
+            <section className="w-full flex items-center justify-between my-5">
+                <div className="w-1/12 mx-2 rounded-lg  cursor-pointer text-2xl text-gray-600 text-center hover:bg-gray-300" onClick={()=>this.changeSlides(-1)}>
+                    &#10094;
+                </div>
+                <section id="test" className="w-5/6 flex items-center justify-center">
+                    {this.props.children[this.state.slideIndex]}
+                </section>
+                <div className="w-1/12 mx-2 rounded-lg cursor-pointer text-2xl text-gray-600 text-center hover:bg-gray-300" onClick={()=>this.changeSlides(1)}>
+                    &#10095;
+                </div>        
             </section>
-            <div className="cursor-pointer">
-                <img className="w-10 h-10" src={process.env.PUBLIC_URL + '/img/icons/arrow-r.png'}/>
-            </div>        
-        </section>
-        
-    )
+        )
+    }
+
 }
 
 
 
 
-/*---------------------------------------------------------------
-                        titles
-------------------------------------------------------------------*/
+
+/*=================================================================
+                        TITLES
+===================================================================*/
 function H1(props){
     // -- component name
     let componentName = 'H1'
@@ -1078,9 +1314,10 @@ function H6(props){
     )
 }
 
-/*---------------------------------------------------------------
-                          Buttons
-------------------------------------------------------------------*/
+
+/*=================================================================
+                        BUTTONS
+===================================================================*/
 function BtnMainFilled(props){
     // -- component name
     let componentName = 'BtnMainFilled'
@@ -1389,9 +1626,9 @@ function BtnSuccess(props){
 
 
 
-/*---------------------------------------------------------------
-                          link
-------------------------------------------------------------------*/
+/*=================================================================
+                        LINKS
+===================================================================*/
 
 function A(props){
     // -- component name
@@ -1415,7 +1652,7 @@ function A(props){
     }
 
     var html;
-    var classes = "";
+    var classes = "text-blue-500 font-semibold tracking-wide hover:text-blue-700 hover:underline";
 
     /*-----------------------------------------------
     Choose between a <a> or a js onClick with props
@@ -1428,15 +1665,16 @@ function A(props){
         html = <span onClick={()=>props.actionOnClick(props.destination)} className={classes}>{props.children}</span>
     }
     return(
-        {html}
+        html
     )
 }
 
 
 
-/*---------------------------------------------------------------
-                          inputs
-------------------------------------------------------------------*/
+
+/*=================================================================
+                        INPUTS
+===================================================================*/
 
 /** <InputTextMovingLabel/>
  * 
@@ -1672,9 +1910,10 @@ function InputText(props){
 }
 
 
-/*---------------------------------------------------------------
-                          Documentation
-------------------------------------------------------------------*/
+
+/*=================================================================
+                             DOC
+===================================================================*/
 
 function Markdown(props){
     // -- component name
@@ -1748,8 +1987,8 @@ function Doc(props){
                 
     let optional = props.optional ? <span className="font-mono mx-1 text-blue-700 text-xs font-semibold"><i>Optional</i></span> : ''
     return(
-        <div className="my-4 md:flex border-gray-200 border-b-2 ">
-            <div className="w-1/4 mt-2 md:mt-0 md:mr-2 md:border-r-2 border-none border-gray-200">
+        <div className="my-4 md:flex border-gray-200 border-b-2 pb-3">
+            <div className="w-1/4 mt-2 md:mt-0 md:mr-2 border-none border-gray-200">
                 <div className="font-mono text-brandColor-500 font-medium"><i>{props.keyword}</i></div>
                 <div className="font-mono text-gray-600 text-sm">({props.type})</div>
                 {optional} 
@@ -1762,9 +2001,10 @@ function Doc(props){
 
 
 
-/*---------------------------------------------------------------
-                          Separators
-------------------------------------------------------------------*/
+
+/*=================================================================
+                        SEPARATORS
+===================================================================*/
 
 function Hr(props){
     // -- component name
@@ -1823,12 +2063,15 @@ export {
     CardImageFull,
     CardImageTop,
     Slider,
-    Diaporama,
+    Slideshow,
     Error,
     Success,
     Info,
-    Alert,
-    Popup
-
+    Warning,
+    Popup,
+    Flex,
+    Content,
+    Notification,
+    A
 }
 

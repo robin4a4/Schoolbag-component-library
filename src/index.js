@@ -44,12 +44,16 @@ import {Hr,
         CardImageFull,
         CardImageTop,
         Slider,
-        Diaporama,
+        Slideshow,
         Error,
         Success,
         Info,
-        Alert,
-        Popup
+        Warning,
+        Popup,
+        Flex,
+        Content,
+        Notification,
+        A
         } from './Components';
 
 
@@ -59,6 +63,7 @@ class App extends Component {
         super(props)
         // states definition
         this.state = {
+            notificationCardExample: {'push' : false },
             popups: {'popup1' : false},
             navSlider: {'slider1' : true,
                         'slider2' : false,
@@ -70,6 +75,7 @@ class App extends Component {
         // binding of functions
         this.actionToogle     = this.actionToogle.bind(this)
         this.changeContent    = this.changeContent.bind(this)
+        this.addNotification  = this.addNotification.bind(this)
 
 
     }
@@ -87,6 +93,14 @@ class App extends Component {
         });
     }
 
+    addNotification(element){
+
+        // incremant the notification state
+        this.setState({
+            [element]: {'push' : this.state[element]['push'] + 1}
+        });
+    }
+
   render() {
 
     return (
@@ -95,6 +109,8 @@ class App extends Component {
         <Header title="Schoolbag component library"/>
         <Template size="full">
             <AsideLeft>
+                <H3>Components</H3>
+                <Hr></Hr>
                 <H6>Header & navs</H6>
                 <ItemNav href="#1">With logo</ItemNav>
                 <ItemNav href="#2">Without logo</ItemNav>
@@ -128,142 +144,24 @@ class App extends Component {
 
                 <H6>Sliders</H6>
                 <ItemNav href="#14">Simple slider</ItemNav>
-                <ItemNav href="#15">Slider with complex HTML</ItemNav>
+                <ItemNav href="#15">Slider with rich HTML</ItemNav>
+                <Hr/>
+
+                <H6>Slideshow</H6>
+                <ItemNav href="#16">Slideshow</ItemNav>
+
+                <H6>Actions</H6>
+                <ItemNav href="#17">Push notification<span className="text-yellow-600 font-semibold">(beta)</span></ItemNav>
+                <ItemNav href="#18">Sub navigation</ItemNav>
+                <ItemNav href="#19">Popup</ItemNav>
+
+
                 <Hr/>
             </AsideLeft>
-
+            
             <ContentRight>
                 <section className="w-full">
-               
-                    <H1>Actions</H1>
-
-                    <H4>Sub nav</H4>
-                    <Card>
-                        <SubNav>
-                            <ItemSubNav actionOnClick={()=>this.changeContent('navSlider', 'slider1')}>Card xs</ItemSubNav>
-                            <ItemSubNav actionOnClick={()=>this.changeContent('navSlider', 'slider2')}>Card sm</ItemSubNav>
-                            <ItemSubNav actionOnClick={()=>this.changeContent('navSlider', 'slider3')}>Card md</ItemSubNav>
-                            <ItemSubNav actionOnClick={()=>this.changeContent('navSlider', 'slider4')}>Card lg</ItemSubNav>
-                            <ItemSubNav actionOnClick={()=>this.changeContent('navSlider', 'slider5')}>Card xl</ItemSubNav>
-                        </SubNav>
-
-                        <Slider name="slider1" visible={this.state.navSlider['slider1']}>
-                            <CardImageFull size="xs" image="simone-hutsch-ZQprWtq4ZJw-unsplash_resultat.jpg" description="Lorem ipsum desei aezl" title="Test action" setTargetName="simone"/>
-                            <CardImageFull size="xs" image="mitchell-luo-bFebN-p_go8-unsplash_resultat.jpg" description="Lorem ipsum desei aezl" title="Test action" setTargetName="simone"/>
-                            <CardImageFull size="xs" image="mads-schmidt-rasmussen-xfngap_DToE-unsplash_resultat.jpg" description="Lorem ipsum desei aezl" title="Test action" setTargetName="simone"/>
-                            <CardImageFull size="xs" image="mitchell-luo-bFebN-p_go8-unsplash_resultat.jpg" description="Lorem ipsum desei aezl" title="Test action" setTargetName="simone"/>
-                        </Slider>
-
-                        <Slider name="slider2" visible={this.state.navSlider['slider2']}>
-                            <CardImageFull size="sm" image="victor-qm9pHqVt7KA-unsplash_resultat.jpg" description="Lorem ipsum desei aezl" title="Test action" setTargetName="simone"/>
-                            <CardImageFull size="sm" image="alexander-tsang-k5kaWuxelPU-unsplash_resultat.jpg" description="Lorem ipsum desei aezl" title="Test action" setTargetName="simone"/>
-                            <CardImageFull size="sm" image="will-turner-839rC40c-F8-unsplash_resultat.jpg" description="Lorem ipsum desei aezl" title="Test action" setTargetName="simone"/>
-
-                        </Slider>
-                        <Slider name="slider3" visible={this.state.navSlider['slider3']}>
-                            <CardImageFull size="md" image="will-turner-839rC40c-F8-unsplash_resultat.jpg" description="Lorem ipsum desei aezl" title="Test action" setTargetName="simone"/>
-                            <CardImageFull size="md" image="victor-qm9pHqVt7KA-unsplash_resultat.jpg" description="Lorem ipsum desei aezl" title="Test action" setTargetName="simone"/>
-
-                        </Slider>
-                        <Slider name="slider4" visible={this.state.navSlider['slider4']}>
-                            <CardImageFull size="lg" image="will-turner-839rC40c-F8-unsplash_resultat.jpg" description="Lorem ipsum desei aezl" title="Test action" setTargetName="simone"/>
-                            <CardImageFull size="lg" image="victor-qm9pHqVt7KA-unsplash_resultat.jpg" description="Lorem ipsum desei aezl" title="Test action" setTargetName="simone"/>
-
-                        </Slider>
-                        <Slider name="slider5" visible={this.state.navSlider['slider5']}>
-                            <CardImageFull size="xl" image="will-turner-839rC40c-F8-unsplash_resultat.jpg" description="Lorem ipsum desei aezl" title="Test action" setTargetName="simone"/>
-                            <CardImageFull size="xl" image="victor-qm9pHqVt7KA-unsplash_resultat.jpg" description="Lorem ipsum desei aezl" title="Test action" setTargetName="simone"/>
-
-                        </Slider>
-
-                        <div className="w-5/6 mx-auto my-10 ">
-                            <H4>Description</H4>
-                            Create a small navigation component. Here we switch between five Slider components but it can be every other DOM elements as long as you name them (see below).
-
-                            <H4>Connection</H4>
-                            Since it is an interactive element, you will have to create a new nav state :
-                            <InlineCode code="yournav: {'page1' : true, 'page2' : false}" lang="javascript"/>
-                            The boolean value gives the visibility of the page, here the first one is visible by default.
-                            By page we mean the DOM elements that will be impacted by the nav. It is not a tangible component (see examples).
-
-                            
-                            <H4>Attributs for SubNav</H4>
-                            No attributes.
-                            <H4>Attributs for ItemSubNav</H4>
-                            <Doc keyword="actionOnClick" type="function">
-                                Set the function to be called when the user click on the nav item. 
-                                The library have this function set to open a page : <InlineCode code="()=>this.changeContent('yournav', 'page1')" lang="javascript"/>
-               
-                                The first argument is the name of your nav defined as a state, the seconde argument is the page you want to open.
-                            </Doc>
-
-                            <H4>Attributs for the components below</H4>
-                            In order to make your elements behave like pages, you have to give them a name and a visibile attribut.
-
-                            <Doc keyword="name" type="text">
-                                Set the name of your page component. 
-                            </Doc>
-                            <Doc keyword="visible" type="boleean">
-                                Set the visibility of your page. It needs to be managed by your nav state visibility : 
-                                <InlineCode code="visible={this.state.yournav['page1']}" lang="javascript"/>
-                            </Doc>
-   
-                            <H4>Component code</H4>
-                            <Markdown code="<Popup visible={this.state.popups['popup1']} close={()=>this.actionToogle('popup1')}>Your content</Popup>" lang="javascript"/>
-
-                        </div>
-                        
-                    </Card>
-
-                    <H4>Popup</H4>
-                    <Card>
- 
-                        <div className="w-5/6 mx-auto my-10 ">
-                            <BtnSuccess actionOnClick={()=>this.actionToogle('popup1')} destination="">Show popup</BtnSuccess>
-
-                            <H4>Description</H4>
-                            Create a popup element with your content inside that can be toggled on click.
-       
-                            <H4>Connection</H4>
-                            Since it is an interactive element, you will have to create a new popup line in the state object popups:  
-                            <InlineCode code="{'yourpopupsname' : false, 'otherpopup' : false}" lang="javascript"/> 
-                            The boolean value gives the visibility of the popup.
-                            <H4>Attributs</H4>
-                            <Doc keyword="visible" type="boolean">
-                                Define the visibility of the popup element. False is hidden, True is visible.
-                            </Doc>
-                            <Doc keyword="close" type="function">
-                                Set the function to be called when the user click on the close icon. 
-                                The library have this function set to toggle elements : <InlineCode code="()=>this.actionToogle('yourpopupsname')" lang="javascript"/>
-                                
-                            </Doc>
-                            <Doc keyword="type" type="text">
-                                Set the format for your popup. <br></br>
-                                Options :
-                                <li>dark <span className="font-mono mx-1 text-blue-700 text-xs font-semibold"><i>Default</i></span> : dark background that takes the entire container.</li>
-                                <li>light : white background that takes the entire container.</li>
-                                <li>full-dark : fixed dark background that takes the entire viewport.</li>
-                                <li>full-light : fixed white background that takes the entire viewport.</li>
-                                
-                                
-                            </Doc>
-   
-                            <H4>Component code</H4>
-                            <Markdown code="<Popup visible={this.state.popups['popup1']} close={()=>this.actionToogle('popup1')}>Your content</Popup>" lang="javascript"/>
-
-                        </div>
-              
-
-                        <Popup visible={this.state.popups['popup1']} close={()=>this.actionToogle('popup1')}>
-                            <CardImageFull image="simone-hutsch-ZQprWtq4ZJw-unsplash_resultat.jpg" description="Lorem ipsum desei aezl" title="Test action" setTargetName="simone"/>
-                            <div className="flex">
-                                <BtnAltFilled actionOnClick={()=>this.actionToogle('popup1')}>Button</BtnAltFilled>
-                            </div>
-                        </Popup>
-                        
-                        
-        
-                    </Card>
+                
 
                     <H1>Headers & navs</H1>
                     <H4 anchor="1">With logo</H4>
@@ -277,7 +175,7 @@ class App extends Component {
                             </Nav>
                         </Header>
 
-                        <div className="w-5/6 mx-auto my-10 ">
+                        <Content>
                             <H4>Description</H4>
                             Create a header sticked to the top of the parent.
                             <H4>Attributs</H4>
@@ -290,7 +188,7 @@ class App extends Component {
                             <H4>Component code</H4>
                             <Markdown code="<Header logo='logoipsum2.png' title='Lorem'></Header>"/>
 
-                        </div>
+                        </Content>
                     </Card>
 
 
@@ -304,7 +202,7 @@ class App extends Component {
                             </Nav>
                         </Header>
 
-                        <div className="w-5/6 mx-auto my-10">
+                        <Content>
                             <H4>Description</H4>
                             Create a header sticked to the top of the parent without a logo.
                             <H4>Attributs</H4>
@@ -313,7 +211,7 @@ class App extends Component {
                             </Doc>
                             <H4>Component code</H4>
                             <Markdown code="<Header title='Lorem'></Header>"/>
-                        </div>
+                        </Content>
 
                     </Card>
 
@@ -326,7 +224,7 @@ class App extends Component {
                                 <ItemNav href="">Sub menu 3</ItemNav>
                             </Nav>
                         </Header>
-                        <div className="w-5/6 mx-auto my-10">
+                        <Content>
                             <H4>Description</H4>
                             Create a header sticked to the top of the parent without logo nor text.
                             <H4>Attributs</H4>
@@ -335,7 +233,7 @@ class App extends Component {
                             </Doc>
                             <H4>Component code</H4>
                             <Markdown code="<Header></Header>"/>
-                        </div>
+                        </Content>
                     </Card>
 
 
@@ -474,7 +372,7 @@ class App extends Component {
                                     <H5>H5 title</H5> 
                                     <H6>H6 title</H6> 
                                     <Hr></Hr><br></br>
-                                    <a href="#8_2" className="p-2 bg-gray-300 rounded text-blue-500 hover:bg-gray-400 cursor-pointer">Go to H1 title</a>
+                                    <A href="#8_2">Go to H1 title</A>
                                 </div>
                             </div>
                         
@@ -555,8 +453,8 @@ class App extends Component {
                         <InputTextMovingPlaceholder label="Name" placeholder="ex: John Smith"/>
                         <InputTextMovingPlaceholder label="Email" placeholder="ex: john@smith.com"/>
                         <div className="flex">
-                            <BtnMainFilled>Submit</BtnMainFilled>
-                            <BtnAltStroked>Other</BtnAltStroked>
+                            <BtnMainFilled actionOnClick>Submit</BtnMainFilled>
+                            <BtnAltStroked actionOnClick>Other</BtnAltStroked>
                         </div>
 
                     </CardImageRight>
@@ -589,7 +487,7 @@ class App extends Component {
                     </Card>
                     
 
-                    <H4>card with image on top</H4>
+                    <H4 anchor="13">card with image on top</H4>
 
                     <Card>
                         <div className="m-4">
@@ -620,7 +518,7 @@ class App extends Component {
             
 
                     <H1>Sliders</H1>
-                    <H4 anchor="13">Simple slider</H4>
+                    <H4 anchor="14">Simple slider</H4>
 
                     <Slider visible="true">
 
@@ -657,7 +555,7 @@ class App extends Component {
                         </div>
                     </Card>
 
-                    <H4 anchor="14">Slider with complex html</H4>
+                    <H4 anchor="15">Slider with rich html</H4>
 
                     <Slider visible="true">
 
@@ -675,8 +573,8 @@ class App extends Component {
                             <InputTextMovingPlaceholder label="Email" placeholder="ex: john@smith.com"/>
                             <InputTextMovingPlaceholder label="Email" placeholder="ex: john@smith.com"/>
                             <div className="flex">
-                                <BtnMainFilled>Submit</BtnMainFilled>
-                                <BtnAltStroked>Other</BtnAltStroked>
+                                <BtnMainFilled actionOnClick>Submit</BtnMainFilled>
+                                <BtnAltStroked actionOnClick>Other</BtnAltStroked>
                             </div>
 
                         </CardImageLeft>
@@ -691,8 +589,8 @@ class App extends Component {
                             <InputTextMovingPlaceholder label="Name" placeholder="ex: John Smith"/>
                             <InputTextMovingPlaceholder label="Email" placeholder="ex: john@smith.com"/>
                             <div className="flex">
-                                <BtnMainFilled>Submit</BtnMainFilled>
-                                <BtnAltStroked>Other</BtnAltStroked>
+                                <BtnMainFilled actionOnClick>Submit</BtnMainFilled>
+                                <BtnAltStroked actionOnClick>Other</BtnAltStroked>
                             </div>
 
                         </CardImageLeft>
@@ -707,18 +605,270 @@ class App extends Component {
                             <InputTextMovingPlaceholder label="Name" placeholder="ex: John Smith"/>
                             <InputTextMovingPlaceholder label="Email" placeholder="ex: john@smith.com"/>
                             <div className="flex">
-                                <BtnMainFilled>Submit</BtnMainFilled>
-                                <BtnAltStroked>Other</BtnAltStroked>
+                                <BtnMainFilled actionOnClick>Submit</BtnMainFilled>
+                                <BtnAltStroked actionOnClick>Other</BtnAltStroked>
                             </div>
 
                         </CardImageLeft>
 
                     </Slider>
 
+                    <H1 anchor="16">Slideshow</H1>
+                    
+                    <Slideshow>
+                        <CardImageRight image="simone-hutsch-ZQprWtq4ZJw-unsplash_resultat.jpg">
+                            <H2>First card</H2>
+                            <Hr/>
+                            <H4>Paragraph</H4>
+                            <p className="text-gray-700">Sunt cupidatat non nostrud non ex et consequat anim non enim proident ut tempor. Non anim eiusmod ea proident esse tempor ullamco fugiat dolore quis. Ullamco officia fugiat ut et proident commodo aute quis velit cupidatat reprehenderit commodo cupidatat.</p>
+        
+                            <H4>Form</H4>
+                            <InputTextMovingPlaceholder label="Name" placeholder="ex: John Smith"/>
+                            <InputTextMovingPlaceholder label="Email" placeholder="ex: john@smith.com"/>
+                            <Flex>
+                                <BtnMainFilled actionOnClick>Submit</BtnMainFilled>
+                                <BtnAltStroked actionOnClick>Other</BtnAltStroked>
+                            </Flex>
+
+                        </CardImageRight>
+
+                        <CardImageRight image="mads-schmidt-rasmussen-xfngap_DToE-unsplash_resultat.jpg">
+                            <H2>Second card</H2>
+                            <Hr/>
+                            <H4>Paragraph</H4>
+                            <p className="text-gray-700">This is a second card without error alerts.</p>
+        
+                            <H4>Form</H4>
+                            <InputTextMovingPlaceholder label="Name" placeholder="ex: John Smith"/>
+                            <InputTextMovingPlaceholder label="Email" placeholder="ex: john@smith.com"/>
+
+                        </CardImageRight>
+
+                        <CardImageRight image="victor-qm9pHqVt7KA-unsplash_resultat.jpg">
+                            <H2>Third Card</H2>
+                            <Hr/>
+                            <H4>Paragraph</H4>
+                            <p className="text-gray-700">This is the thrid card without a form</p>
+        
+                        </CardImageRight>
+                
+                    </Slideshow>
+
+                    <Card>
+                        <Content>
+                            <H4>Description</H4>
+                            Create a slideshow. 
+
+                            <H4>Attributs</H4>
+                            No attributs.
+                          
+                            <H4>Code sample</H4>
+                            <Markdown code="<Slideshow>Your items here</Slideshow>" lang="html"/>
+
+                        </Content>
+                    </Card>
+                        
+                    
+               
+                    <H1>Actions</H1>
+                    
+                    <H4 anchor="17">Push notification</H4>
+                    
+      
+                        <Notification  fixed visible={this.state.notificationCardExample['push']} image="simone-hutsch-ZQprWtq4ZJw-unsplash_resultat.jpg" title="New notification" message="Mollit nulla sunt mollit adipisicing excepteur est occaecat anim."/>
+
+                        <Flex>
+                            <CardImageTop image="simone-hutsch-ZQprWtq4ZJw-unsplash_resultat.jpg" title="Test push" description="test push" push={this.state.notificationCardExample['push']}></CardImageTop>
+
+                            <CardImageFull size="xs" image="simone-hutsch-ZQprWtq4ZJw-unsplash_resultat.jpg" title="Test push" description="test push" push={this.state.notificationCardExample['push']}></CardImageFull>
+                        </Flex>
+                            
+        
+                        <BtnMainFilled actionOnClick={()=>this.addNotification('notificationCardExample')}>Add a notification</BtnMainFilled>
+              
+                    <Card>
+                        <Content>
+                            <H4>Description</H4>
+                            Add a push pellet on the top right corner of a card. It can be incremented through a state. 
+
+                            <H4>Connection</H4>
+                            Since it is an interactive element, you will have to create a new nav state :
+                            <InlineCode code="notificationCardExample: {'push' : false }," lang="javascript"/>
+                            The boolean value gives the visibility of the pellet. The function addNotification increments the state. 
+
+                            <H5>The function to be called</H5>
+                            To add a notification you have to call the addNotification function: 
+                            <InlineCode code="()=>this.addNotification('notificationCardExample')" lang="javascript"/>
+
+                            It can be called with an actionOnClick props:
+                            <InlineCode code="<BtnMainFilled  actionOnClick={()=>this.addNotification('notificationCardExample')}>Add a notification</BtnMainFilled>" lang="javascript"/>
+
+                            <H4>Attributs to add to cards</H4>
+           
+                            <Doc keyword="push" type="boolean">
+                               
+                                Give the visibility state to your card : <InlineCode code="push={this.state.notificationCardExample['push']}" lang="javascript"/>
+                                Supported cards : 
+                                <li>Card</li>
+                                <li>CardImageFull</li>
+                                <li>CardImageTop</li>
+               
+                            </Doc>
+
+                            <H4>Code sample</H4>
+                            <Markdown code="<Card push={this.state.notificationCardExample['push']}>Excepteur qui nostrud ipsum laborum sint.</Card>" lang="javascript"/>
+
+                        </Content>
+                    </Card>
+
+                    <H4 anchor="18">Sub nav</H4>
+                    
+                        <SubNav>
+                            <ItemSubNav actionOnClick={()=>this.changeContent('navSlider', 'slider1')}>Card xs</ItemSubNav>
+                            <ItemSubNav actionOnClick={()=>this.changeContent('navSlider', 'slider2')}>Card sm</ItemSubNav>
+                            <ItemSubNav actionOnClick={()=>this.changeContent('navSlider', 'slider3')}>Card md</ItemSubNav>
+                            <ItemSubNav actionOnClick={()=>this.changeContent('navSlider', 'slider4')}>Card lg</ItemSubNav>
+                            <ItemSubNav actionOnClick={()=>this.changeContent('navSlider', 'slider5')}>Card xl</ItemSubNav>
+                        </SubNav>
+
+                        <Slider name="slider1" visible={this.state.navSlider['slider1']}>
+                            <CardImageFull size="xs" image="simone-hutsch-ZQprWtq4ZJw-unsplash_resultat.jpg" description="Lorem ipsum desei aezl" title="Test action" setTargetName="simone"/>
+                            <CardImageFull size="xs" image="mitchell-luo-bFebN-p_go8-unsplash_resultat.jpg" description="Lorem ipsum desei aezl" title="Test action" setTargetName="simone"/>
+                            <CardImageFull size="xs" image="mads-schmidt-rasmussen-xfngap_DToE-unsplash_resultat.jpg" description="Lorem ipsum desei aezl" title="Test action" setTargetName="simone"/>
+                            <CardImageFull size="xs" image="mitchell-luo-bFebN-p_go8-unsplash_resultat.jpg" description="Lorem ipsum desei aezl" title="Test action" setTargetName="simone"/>
+                        </Slider>
+
+                        <Slider name="slider2" visible={this.state.navSlider['slider2']}>
+                            <CardImageFull size="sm" image="victor-qm9pHqVt7KA-unsplash_resultat.jpg" description="Lorem ipsum desei aezl" title="Test action" setTargetName="simone"/>
+                            <CardImageFull size="sm" image="alexander-tsang-k5kaWuxelPU-unsplash_resultat.jpg" description="Lorem ipsum desei aezl" title="Test action" setTargetName="simone"/>
+                            <CardImageFull size="sm" image="will-turner-839rC40c-F8-unsplash_resultat.jpg" description="Lorem ipsum desei aezl" title="Test action" setTargetName="simone"/>
+
+                        </Slider>
+                        <Slider name="slider3" visible={this.state.navSlider['slider3']}>
+                            <CardImageFull size="md" image="will-turner-839rC40c-F8-unsplash_resultat.jpg" description="Lorem ipsum desei aezl" title="Test action" setTargetName="simone"/>
+                            <CardImageFull size="md" image="victor-qm9pHqVt7KA-unsplash_resultat.jpg" description="Lorem ipsum desei aezl" title="Test action" setTargetName="simone"/>
+
+                        </Slider>
+                        <Slider name="slider4" visible={this.state.navSlider['slider4']}>
+                            <CardImageFull size="lg" image="will-turner-839rC40c-F8-unsplash_resultat.jpg" description="Lorem ipsum desei aezl" title="Test action" setTargetName="simone"/>
+                            <CardImageFull size="lg" image="victor-qm9pHqVt7KA-unsplash_resultat.jpg" description="Lorem ipsum desei aezl" title="Test action" setTargetName="simone"/>
+
+                        </Slider>
+                        <Slider name="slider5" visible={this.state.navSlider['slider5']}>
+                            <CardImageFull size="xl" image="will-turner-839rC40c-F8-unsplash_resultat.jpg" description="Lorem ipsum desei aezl" title="Test action" setTargetName="simone"/>
+                            <CardImageFull size="xl" image="victor-qm9pHqVt7KA-unsplash_resultat.jpg" description="Lorem ipsum desei aezl" title="Test action" setTargetName="simone"/>
+
+                        </Slider>
+                    <Card>
+                        <Content>
+                            <H4>Description</H4>
+                            Create a small navigation component. Here we switch between five Slider components but it can be every other DOM elements as long as you name them (see below).
+
+                            <H4>Connection</H4>
+                            Since it is an interactive element, you will have to create a new nav state :
+                            <InlineCode code="yournav: {'page1' : true, 'page2' : false}" lang="javascript"/>
+                            The boolean value gives the visibility of the page, here the first one is visible by default.
+                            By page we mean the DOM elements that will be impacted by the nav. It is not a tangible component (see examples).
+
+                            
+                            <H4>Attributs for SubNav</H4>
+                            No attributes.
+                            <H4>Attributs for ItemSubNav</H4>
+                            <Doc keyword="actionOnClick" type="function">
+                                Set the function to be called when the user click on the nav item. 
+                                The library have this function set to open a page : <InlineCode code="()=>this.changeContent('yournav', 'page1')" lang="javascript"/>
+            
+                                The first argument is the name of your nav defined as a state, the seconde argument is the page you want to open.
+                            </Doc>
+
+                            <H4>Attributs for the components below</H4>
+                            In order to make your elements behave like pages, you have to give them a name and a visibile attribut.
+
+                            <Doc keyword="name" type="text">
+                                Set the name of your page component. 
+                            </Doc>
+                            <Doc keyword="visible" type="boleean">
+                                Set the visibility of your page. It needs to be managed by your nav state visibility : 
+                                <InlineCode code="visible={this.state.yournav['page1']}" lang="javascript"/>
+                            </Doc>
+
+                            <H4>Component code</H4>
+                            <Markdown code="<Popup visible={this.state.popups['popup1']} close={()=>this.actionToogle('popup1')}>Your content</Popup>" lang="javascript"/>
+
+                        </Content>
+                        
+                    </Card>
+
+                    <H4 anchor="19">Popup</H4>
+                    <Card>
+ 
+                        <Content>
+                            <BtnSuccess actionOnClick={()=>this.actionToogle('popup1')} destination="">Show popup</BtnSuccess>
+
+                            <H4>Description</H4>
+                            Create a popup element with your content inside that can be toggled on click.
+       
+                            <H4>Connection</H4>
+                            Since it is an interactive element, you will have to create a new popup line in the state object popups:  
+                            <InlineCode code="{'yourpopupsname' : false, 'otherpopup' : false}" lang="javascript"/> 
+                            The boolean value gives the visibility of the popup.
+                            <H4>Attributs</H4>
+                            <Doc keyword="visible" type="boolean">
+                                Define the visibility of the popup element. False is hidden, True is visible.
+                            </Doc>
+                            <Doc keyword="close" type="function">
+                                Set the function to be called when the user click on the close icon. 
+                                The library have this function set to toggle elements : <InlineCode code="()=>this.actionToogle('yourpopupsname')" lang="javascript"/>
+                                
+                            </Doc>
+                            <Doc keyword="type" type="text">
+                                Set the format for your popup. <br></br>
+                                Options :
+                                <li>dark <span className="font-mono mx-1 text-blue-700 text-xs font-semibold"><i>Default</i></span> : dark background that takes the entire container.</li>
+                                <li>light : white background that takes the entire container.</li>
+                                <li>full-dark : fixed dark background that takes the entire viewport.</li>
+                                <li>full-light : fixed white background that takes the entire viewport.</li>
+                                
+                                
+                            </Doc>
+   
+                            <H4>Component code</H4>
+                            <Markdown code="<Popup visible={this.state.popups['popup1']} close={()=>this.actionToogle('popup1')}>Your content</Popup>" lang="javascript"/>
+
+                        </Content>
+              
+
+                        <Popup visible={this.state.popups['popup1']} close={()=>this.actionToogle('popup1')}>
+                            <CardImageFull image="simone-hutsch-ZQprWtq4ZJw-unsplash_resultat.jpg" description="Lorem ipsum desei aezl" title="Test action" setTargetName="simone"/>
+                            <div className="flex">
+                                <BtnAltFilled actionOnClick={()=>this.actionToogle('popup1')}>Button</BtnAltFilled>
+                            </div>
+                        </Popup>
+                        
+                        
+        
+                    </Card>
+
+                    <H1>Alerts</H1>
+                    You can inform the user with colored alerts.
+                    <H4>Success</H4>
+                    <Success>Task failed successfuly.</Success>
+                    <Markdown code="<Success>Task failed successfuly.</Success>"/>
+                    <H4>Error</H4>
+                    <Error>Task failed.</Error>
+                    <Markdown code="<Error>Task failed.</Error>"/>
+                    <H4>Info</H4>
+                    <Info>Information abotu a current process.</Info>
+                    <Markdown code="<Info>Information abotu a current process.</Info>"/>
+                    <H4>Warning</H4>
+                    <Warning>Warning about a current process.</Warning>
+                    <Markdown code="<Warning>Warning about a current process.</Warning>"/>
+
                 </section>
                 
 
             </ContentRight>
+            
         </Template>
          
             
