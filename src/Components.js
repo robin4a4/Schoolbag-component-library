@@ -131,6 +131,39 @@ function Content(props){
 }
 
 
+function PresComponent(props){
+    // -- component name
+    let componentName = 'PresComponent'
+
+    // Admitted props : true = needed, false = optional
+    let propsInfos =  {
+
+                'children': false
+                }
+    
+    // Props filter, check whether all the pros are correct
+    let filter = propsFilter(componentName, props, propsInfos)
+
+    if(filter[0]){
+        return(
+            filter[1]
+        )
+    }
+    let width = props.width ? props.width : '5/6'
+    return(
+        <section className=" bg-white border-b-2 border-gray-200">
+            
+            <div className="bg-gray-100 uppercase font-semibold tracking-wider text-gray-900 text-xs w-full py-4 border-b-2 border-gray-200 px-5 flex justify-between align-middle items-center">
+                <div>Component example</div>
+                <div className="text-orange-500 bg-orange-200 rounded-full px-2 py-1">interactive</div>
+            </div>
+            <div className="p-5">
+                {props.children}
+            </div>
+        </section>
+    )
+}
+
 
 /*=================================================================
                             Alert
@@ -802,7 +835,7 @@ function Card(props){
     let push = props.push ? <div className="flex items-center justify-center font-semibold rounded-full px-1 h-6 min-w-6 text-white text-xs bg-red-600 absolute top-0 right-0 -mt-2 -mr-2">{props.push}</div> : ''
 
     return(
-        <div className="relative bg-gray-100 shadow-lg border-t-2 border-gray-200 rounded-lg w-full my-5 p-2 ">
+        <div className="relative bg-gray-100 shadow-lg border-t-2 border-gray-200 rounded-lg w-full my-5 pb-5">
             {push}
             {props.children}
         </div>
@@ -844,11 +877,11 @@ function CardImageLeft(props){
     let cardSize = switchProps(sizes, props.size);
 
     return(
-        <div className={"CardImageLeft flex-none lg:h-150 overflow-hidden bg-white shadow-lg rounded-lg my-5 "+ cardSize}>
+        <div className={"CardImageLeft flex-none lg:h-150 overflow-hidden bg-white shadow-lg rounded-lg my-5  "+ cardSize}>
             <section className="h-full w-full items-center lg:flex">
                 <img className="h-40 w-full lg:h-full object-cover lg:w-1/2" src={process.env.PUBLIC_URL + '/img/unsplash/resized/'+props.image}/>
                 
-                <div className="lg:w-1/2 p-10 lg:h-full overflow-y-scroll">
+                <div className="lg:w-1/2 p-10 lg:h-full overflow-y-scroll border-t-2 border-gray-100">
                     {props.children}
                 </div>
             </section>
@@ -894,11 +927,10 @@ function CardImageRight(props){
         <div className={"CardImageLeft flex-none lg:h-150 overflow-hidden bg-white shadow-lg rounded-lg my-5 "+ cardSize}>
             <section className="h-full w-full items-center lg:flex">
                 <img className="h-40 w-full object-cover lg:hidden" src={process.env.PUBLIC_URL + '/img/unsplash/resized/'+props.image}/>
-                <div className="lg:w-1/2 p-10 lg:h-full overflow-y-scroll">
+                <div className="lg:w-1/2 p-10 lg:h-full overflow-y-scroll border-t-2 border-gray-100">
                     {props.children}
                 </div>
                 <img className="hidden lg:block h-40 w-full lg:h-full object-cover lg:w-1/2" src={process.env.PUBLIC_URL + '/img/unsplash/resized/'+props.image}/>
-                
                 
             </section>
         </div>
@@ -1166,9 +1198,9 @@ function H1(props){
             filter[1]
         )
     }
-
     return(
-        <h1 id={props.anchor}
+        <h1 
+        id={props.anchor}
         className = { titleTemplate + "text-3xl mt-10" }>
         {props.children}
         </h1>
@@ -2072,6 +2104,7 @@ export {
     Flex,
     Content,
     Notification,
-    A
+    A,
+    PresComponent
 }
 
