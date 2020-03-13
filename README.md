@@ -63,77 +63,54 @@ Here is the list of the components, more will be added soon.
 
 
 #### List of components
-##### Headers
-- Header
-- HeaderTitleFull
 
-##### Navs
-- Nav
-- ItemNav
-- SubNav
-- ItemSubNav
 
-##### Templates
-- Template
-- AsideLeft
-- ContentRight
-- AsideRight
-- ContentLeft
-
-##### Cards
-- Card
-- CardImageLeft
-- CardImageRight
-- CardImageFull
-- CardImageTop
-
-##### Popups
-- Popup
-
-##### Slider
-- Slider
-
-##### Slideshow
-- Slideshow
-
-##### Separator
-- Hr
-##### Buttons
-- BtnMainFilled
-- BtnMainStroked
-- BtnMainPillFilled
-- BtnMainPillStroked
-- BtnAltFilled
-- BtnAltStroked
-- BtnAltPillFilled
-- BtnAltPillStroked
-- BtnSucess
-- BtnError
-
-##### Titles
-- H1
-- H2
-- H3
-- H4
-- H5
-- H6
-
-##### Inputs
-- InputText
-- InputTextMovingLabel
-- InputTextMovingPlaceholder
-
-##### Notifications
-- Notification
-
-##### Doc
-- Markdown
-- Doc
-- InlineCode
-
-##### Alerts
-- Error
-- Success
-- Info
-- Alert
-
+| Category      | Component                 |
+| ------------- |:-------------------------:|  
+| Headers       | Header                    |
+|               | HeaderTitleFull           |
+| Navs          | Nav                       |
+|               | ItemNav                   |
+|               | SubNav                    |
+|               | ItemSubNav                |
+|Templates      | Template                  |
+|               | AsideLeft                 |
+|               | ContentRight              |
+|               | AsideRight                |
+|               | ContentLeft               |
+| Cards         | Card                      |
+|               | CardImageLeft             |
+|               | CardImageRight            |
+|               | CardImageFull             |    
+|               | CardImageTop              |
+| Popups        | Popup                     |
+| Slider        | Slider                    |
+| Slideshow     | Slideshow                 |
+| Separator     | Hr                        |
+| Buttons       | BtnMainFilled             |
+|               | BtnMainStroked            |
+|               | BtnMainPillFilled         |
+|               | BtnMainPillStroked        |
+|               | BtnAltFilled              |
+|               | BtnAltStroked             |
+|               | BtnAltPillFilled          |   
+|               | BtnAltPillStroked         |
+|               | BtnSucess                 |
+|               | BtnError                  |
+| Titles        | H1                        |
+|               | H2                        |
+|               | H3                        |
+|               | H4                        |
+|               | H5                        |
+|               | H6                        |
+| Inputs        | InputText                 |
+|               | InputTextMovingLabel      |
+|               | InputTextMovingPlaceholder|
+| Notifications | Notification              |
+| Doc           | Markdown                  |
+|               | Doc                       |
+|               | InlineCode                |
+| Alerts        | Error                     |
+|               | Success                   |
+|               | Info                      |
+|               | Alert                     |
